@@ -5,6 +5,7 @@ import hello.hellospring.jwt.JwtAuthenticationEntryPoint;
 import hello.hellospring.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -38,6 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     // SecurityFilterChain를 빈으로 등록
     @Bean
+    @Order(0)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // CSRF 보안 설정을 해제하여 토큰 사용
         http

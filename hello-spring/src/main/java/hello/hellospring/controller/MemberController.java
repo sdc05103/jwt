@@ -1,22 +1,26 @@
 package hello.hellospring.controller;
 
 import hello.hellospring.dto.MemberJoinDTO;
+import hello.hellospring.dto.SignInRequestDto;
+import hello.hellospring.dto.SignInResultDto;
 import hello.hellospring.service.MemberService;
+import hello.hellospring.response.BaseException;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.slf4j.Logger;
 
 import javax.validation.Valid;
 import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:3000") //CORS ERROR 해결
 @RequiredArgsConstructor
-@Controller
+@RestController
 public class MemberController {
 
     private final MemberService memberService;
-
 
     @GetMapping("/join")
     public String createForm() {
@@ -52,17 +56,27 @@ public class MemberController {
         return "members/login";
     }
 
+
 //    @PostMapping("/login")
 //    public ResponseEntity<String> loginSuccess(@RequestBody Map<String, String> loginForm) {
 //        String token = service.login(loginForm.get("id"), loginForm.get("password"));
 //        return ResponseEntity.ok(token);
 //    }
+
+    private final Logger log = LoggerFactory.getLogger(MemberController.class);
+
     @PostMapping("/login")
-    public String login(@RequestBody Map<String, String> member) {
+    public void signIn(@RequestBody SignInRequestDto signInRequestDto) throws RuntimeException, BaseException {
 
-        return memberService.login(member);
+        log.info("[signIn] 로그인을 시도하고 있습니다. Email : {}, pw : ****", signInRequestDto.getUsername());
+        SignInResultDto signInResultDto = memberService.signIn(signInRequestDto);
+
+        if (signInResultDto.getCode() == 0) {
+            log.info("[signIn] 정상적으로 로그인되었습니다. Email : {}, token : {}", signInRequestDto.getUsername(), signInResultDto.getToken());
+        }
+
+        return;
     }
-
 
 }
 
