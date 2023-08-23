@@ -16,7 +16,7 @@ import java.util.List;
 @Entity
 @Builder
 @Table(name = "member")
-public class Member extends BaseTimeEntity implements UserDetails {
+public class Member implements UserDetails { //extends BaseTimeEntity
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //자동 증가하도록 지정

@@ -1,6 +1,8 @@
 package hello.hellospring.repository;
 
+import hello.hellospring.domain.Authority;
 import hello.hellospring.domain.Member;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.DataSourceUtils;
@@ -15,6 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Primary
 @Repository
@@ -29,6 +32,8 @@ public class JdbcMemberRepository implements MemberRepository {
         em.persist(member);
         return member;
     }
+
+
     @Override
     public Optional<Member> findById(String id) {
         String sql = "select * from member where id = ?";
@@ -40,15 +45,16 @@ public class JdbcMemberRepository implements MemberRepository {
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, id);
             rs = pstmt.executeQuery();
+            Member member = null;
             if(rs.next()) {
-                Member member = new Member();
+                member = new Member();
                 member.setId(rs.getString("id"));
                 member.setName(rs.getString("name"));
                 member.setPwd(rs.getString("pwd"));
+                member.setPid(rs.getLong("pid"));
                 return Optional.of(member);
             } else {
                 return Optional.empty();
-
             }
         } catch (Exception e) {
             throw new IllegalStateException(e);
@@ -58,6 +64,38 @@ public class JdbcMemberRepository implements MemberRepository {
     }
 
 
+    @Primary
+    @Override
+    public Member findById_not_null(String id) {
+        String sql = "select * from member where id = ?";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, id);
+            rs = pstmt.executeQuery();
+            if (rs.next()) { // Check if there is a result
+                Member member = new Member();
+                member.setId(rs.getString("id"));
+                member.setName(rs.getString("name"));
+                member.setPwd(rs.getString("pwd"));
+                member.setPid(rs.getLong("pid"));
+                return member;
+            } else {
+                System.out.println("************");
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println("************!");
+            System.out.println("Exception occurred: " + e.getMessage());
+            e.printStackTrace(); // 예외 스택 트레이스 출력
+            throw new IllegalStateException(e);
+        } finally {
+            close(conn, pstmt, rs);
+        }
+    }
 
     @Override
     public List<Member> findAll() {

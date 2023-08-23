@@ -1,6 +1,9 @@
+package hello.hellospring.config;
+
 import hello.hellospring.domain.Member;
 import hello.hellospring.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 
+@Primary
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {

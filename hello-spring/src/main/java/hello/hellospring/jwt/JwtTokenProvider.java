@@ -1,10 +1,12 @@
 package hello.hellospring.jwt;
 
+import hello.hellospring.service.UserDetailsServiceImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,7 +27,7 @@ public class JwtTokenProvider { // jwt 토큰 생성 및 관리를 위한 클래
 
     // 토큰 유효시간 168 시간(7일)
     private long tokenValidTime = 1440 * 60 * 7 * 1000L;
-    // Spring Security의 UserDetailService 주입
+
     private final UserDetailsService userDetailsService;
 
     // 객체 초기화, secretKey 를 Base64로 인코딩
