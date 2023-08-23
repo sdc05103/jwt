@@ -32,6 +32,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
         try {
             user = userRepository.findById(userEmail)
                     .orElseThrow(() -> new BaseException(ResponseStatus.NOT_FOUND_USER));
+            log.info("[loadUserByUsername] loadUserByUsername 수행: username = {}", user.getUsername());
         } catch (BaseException e) {
 
             throw new RuntimeException(e);

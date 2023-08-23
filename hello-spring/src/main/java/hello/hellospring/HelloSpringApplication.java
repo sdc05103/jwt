@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-@EnableJpaAuditing	//BaseTimeEntity 만들었기 때문에 추가
+//@EnableJpaAuditing	//BaseTimeEntity 만들었기 때문에 추가
 @SpringBootApplication
 public class HelloSpringApplication {
 

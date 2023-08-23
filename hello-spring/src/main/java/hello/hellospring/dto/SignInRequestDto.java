@@ -7,9 +7,15 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Builder
 public class SignInRequestDto {
     private String username;
     private String password;
+
+    @Builder
+    public SignInRequestDto(String username, String password){
+        this.username = username;
+        this.password = password;
+    }
+
 }

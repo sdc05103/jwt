@@ -4,6 +4,9 @@ import hello.hellospring.jwt.JwtAccessDeniedHandler;
 import hello.hellospring.jwt.JwtAuthenticationEntryPoint;
 import hello.hellospring.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+import org.springframework.boot.autoconfigure.security.ConditionalOnDefaultWebSecurity;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,6 +22,9 @@ import org.springframework.security.web.SecurityFilterChain;
  * Spring Security 설정을 구성하는 클래스.
  * JwtTokenProvider, JwtAccessDeniedHandler, JwtAuthenticationEntryPoint를 주입받음.
  */
+
+@ConditionalOnDefaultWebSecurity
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -38,8 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     // SecurityFilterChain를 빈으로 등록
+    @Order(SecurityProperties.BASIC_AUTH_ORDER)
     @Bean
-    @Order(0)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // CSRF 보안 설정을 해제하여 토큰 사용
         http
