@@ -25,3 +25,4 @@ public class SignInResultDto {
         this.token = token;
     }
 }
+
