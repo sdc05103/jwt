@@ -84,11 +84,9 @@ public class JdbcMemberRepository implements MemberRepository {
                 member.setPid(rs.getLong("pid"));
                 return member;
             } else {
-                System.out.println("************");
                 return null;
             }
         } catch (Exception e) {
-            System.out.println("************!");
             System.out.println("Exception occurred: " + e.getMessage());
             e.printStackTrace(); // 예외 스택 트레이스 출력
             throw new IllegalStateException(e);

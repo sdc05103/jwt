@@ -57,7 +57,7 @@ public class MemberController {
         return memberService.join(request.toEntity());
     }
 
-    @PostMapping(value = "login") //, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "api/login") //, consumes = MediaType.APPLICATION_JSON_VALUE)
     public SignInTokenDto signIn(@RequestBody SignInRequestDto signInRequestDto) throws RuntimeException, BaseException {
 
         log.info("[signIn] 로그인을 시도하고 있습니다. Email : {}, pw : ****", signInRequestDto.getUsername());
