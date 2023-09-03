@@ -67,8 +67,6 @@ public class MemberController {
             log.info("[signIn] 정상적으로 로그인되었습니다. Email : {}, token : {}", signInRequestDto.getUsername(), signInResultDto.getToken());
         }
 
-
-
         SignInTokenDto signInTokenDto = new SignInTokenDto(signInResultDto.getToken(), memberService.findUsername(signInRequestDto.getUsername()));
 
         return signInTokenDto;
