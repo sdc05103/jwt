@@ -38,7 +38,7 @@ public class MemberService {
     private final Logger log = LoggerFactory.getLogger(MemberController.class);
 
     public String findUsername(String id){
-        Member member = memberRepository.findById_not_null(id); return member.getId();}
+        Member member = memberRepository.findById_not_null(id); return member.getName();}
 
     public SignInResultDto signIn(SignInRequestDto signInRequestDto) throws RuntimeException, BaseException {
 
