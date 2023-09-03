@@ -9,9 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SignInTokenDto {
     private String token;
+    private String name;
 
     @Builder
-    public SignInTokenDto(String token) {
+    public SignInTokenDto(String token, String name) {
         this.token = token;
+        this.name = name;
     }
 }

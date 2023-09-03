@@ -37,6 +37,9 @@ public class MemberService {
 
     private final Logger log = LoggerFactory.getLogger(MemberController.class);
 
+    public String findUsername(String id){
+        Member member = memberRepository.findById_not_null(id); return member.getId();}
+
     public SignInResultDto signIn(SignInRequestDto signInRequestDto) throws RuntimeException, BaseException {
 
         log.info("[getSignInResult] signDataHandler 로 회원 정보 요청");
