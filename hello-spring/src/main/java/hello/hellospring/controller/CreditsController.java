@@ -43,7 +43,7 @@ public class CreditsController {
             int cid = creditsService.find_cid(classNames.get(i)); //String class_name으로 int cid 검색
             credit_obj.setCid(cid);
 
-            int sid = creditsService.find_sid(subjects.get(i)); //String subject로 int sid 검색
+            int sid = creditsService.find_sid(classNames.get(i)); //String subject로 int sid 검색
             credit_obj.setSid(sid);
 
             credit_obj.setCredit(credits.get(i));
@@ -78,10 +78,11 @@ public class CreditsController {
             //classNames에 class 이름 받아옴. ex) '화법과 작문' ...
 
             List<Subject> data2 = creditsService.showAll_subject(data.get(0).getSid());
-            subjects.add(data2.get(0).getName());
+            subjects.add( data2.get(0).getName());
             //subjects에 subject 이름 받아옴. ex) '국어' ...
+            int sub_length = data2.get(0).getName().length();
 
-            CreditEditDTO creditDto = new CreditEditDTO("1", data.get(0).getName(), credit.getCredit(), data2.get(0).getName());
+            CreditEditDTO creditDto = new CreditEditDTO("1", data.get(0).getName(), credit.getCredit(), data2.get(0).getName().substring(0, sub_length-1));
             creditList.add(creditDto);
 
         }

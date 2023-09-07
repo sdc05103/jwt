@@ -26,7 +26,7 @@ public class CreditsService {
         return creditsRepository.find_subject((sid));
     }
 
-    public int find_sid(String name) {return creditsRepository.find_sid_by_name(name);}
+    public int find_sid(String name) {return creditsRepository.find_sid_by_class(name);}
 
     public int find_cid(String name) {return creditsRepository.find_cid_by_name(name);}
 

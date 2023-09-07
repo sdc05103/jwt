@@ -149,8 +149,8 @@ public class creditsRepository {
         }
     }
 
-    public int find_sid_by_name(String name) {
-        String sql = "SELECT sid FROM subject WHERE name = ?";
+    public int find_sid_by_class(String name) {
+        String sql = "SELECT sid FROM class WHERE name = ?";
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
