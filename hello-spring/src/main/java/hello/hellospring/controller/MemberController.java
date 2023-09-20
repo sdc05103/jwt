@@ -69,6 +69,8 @@ public class MemberController {
 
         SignInTokenDto signInTokenDto = new SignInTokenDto(signInResultDto.getToken(), memberService.findUsername(signInRequestDto.getUsername()));
 
+        System.out.println(signInTokenDto.getToken());
+
         return signInTokenDto;
     }
 

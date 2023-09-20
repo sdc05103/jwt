@@ -30,8 +30,8 @@ public class CreditsService {
 
     public int find_cid(String name) {return creditsRepository.find_cid_by_name(name);}
 
-    public void credit_edit(int semester, Credit credit_object){
-        creditsRepository.credits_edits(semester, credit_object);
+    public void credit_edit(int semester, Credit credit_object, String id){
+        creditsRepository.credits_edits(semester, credit_object, id);
     }
 
     public void credit_delete(int semester){

@@ -2,13 +2,22 @@ package hello.hellospring.controller;
 
 import hello.hellospring.domain.Classes;
 import hello.hellospring.domain.Credit;
+import hello.hellospring.domain.Member;
 import hello.hellospring.domain.Subject;
 import hello.hellospring.dto.CreditEditDTO;
 import hello.hellospring.service.CreditsService;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtParser;
+import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +29,13 @@ public class CreditsController {
 
     @ResponseBody
     @RequestMapping(value = "/api/credits/{semester}")
-    public ResponseEntity<String> creditEdit(@PathVariable int semester, @RequestBody List<CreditEditDTO> creditList) {
+    public ResponseEntity<String> creditEdit(@PathVariable int semester, @RequestBody List<CreditEditDTO> creditList,@RequestHeader("token") String token) {
+
+        String id = Jwts.parserBuilder()
+                .setSigningKey("c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK" .getBytes())
+                .build()
+                .parseClaimsJws(token)
+                .getBody().getSubject();
 
         List<String> classNames = new ArrayList<>();
         List<Integer> credits = new ArrayList<>();
@@ -30,7 +45,7 @@ public class CreditsController {
         for (CreditEditDTO crediteditDTO : creditList) {
             classNames.add(crediteditDTO.getClass_name());
             credits.add(crediteditDTO.getCredit());
-            ids.add(crediteditDTO.getId());
+            ids.add(id);
             subjects.add(crediteditDTO.getSubject());
         }
 
@@ -49,13 +64,22 @@ public class CreditsController {
             credit_obj.setCredit(credits.get(i));
             credit_obj.setSemester(semester);
 
-            creditsService.credit_edit(semester, credit_obj);
+            creditsService.credit_edit(semester, credit_obj, id);
         }
         return ResponseEntity.ok("Successfully processed credit data");
     }
 
     @GetMapping(value = "/api/credits/{semester}")
-    public List<CreditEditDTO> creditShow(@PathVariable int semester) {
+    public List<CreditEditDTO> creditShow(@RequestHeader("token") String token, @PathVariable int semester) {
+
+        String id = Jwts.parserBuilder()
+                .setSigningKey("c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK" .getBytes())
+                .build()
+                .parseClaimsJws(token)
+                .getBody().getSubject();
+        //token을 id로 변환해주는 코드
+
+//        String id = "12";
 
         List<CreditEditDTO> creditList = new ArrayList<>();
 
@@ -64,9 +88,6 @@ public class CreditsController {
         List<String> subjects = new ArrayList<>();
 
         int sem = semester;
-        String id = "12";
-
-        //List<Credit> credit = creditsService.showAll(sem, id);
 
         List<Credit> credit_list = creditsService.showAll(sem, id);
 
