@@ -29,7 +29,7 @@ public class CreditsController {
 
     @ResponseBody
     @RequestMapping(value = "/api/credits/{semester}")
-    public ResponseEntity<String> creditEdit(@PathVariable int semester, @RequestBody List<CreditEditDTO> creditList,@RequestHeader("token") String token) {
+    public ResponseEntity<String> creditEdit(@PathVariable int semester, @RequestBody List<CreditEditDTO> creditList,@RequestHeader("Authorization") String token) {
 
         String id = Jwts.parserBuilder()
                 .setSigningKey("c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK" .getBytes())
@@ -49,7 +49,7 @@ public class CreditsController {
             subjects.add(crediteditDTO.getSubject());
         }
 
-        creditsService.credit_delete(semester);
+        creditsService.credit_delete(semester, id);
 
         for (int i = 0; i < creditList.size(); i++) {
             //Credit object를 만든 뒤, Credit Object attribute에 하나씩 저장
@@ -70,16 +70,13 @@ public class CreditsController {
     }
 
     @GetMapping(value = "/api/credits/{semester}")
-    public List<CreditEditDTO> creditShow(@RequestHeader("token") String token, @PathVariable int semester) {
+    public List<CreditEditDTO> creditShow(@RequestHeader("Authorization") String token, @PathVariable int semester) {
 
         String id = Jwts.parserBuilder()
                 .setSigningKey("c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK" .getBytes())
                 .build()
                 .parseClaimsJws(token)
                 .getBody().getSubject();
-        //token을 id로 변환해주는 코드
-
-//        String id = "12";
 
         List<CreditEditDTO> creditList = new ArrayList<>();
 

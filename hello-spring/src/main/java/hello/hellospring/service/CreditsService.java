@@ -34,7 +34,7 @@ public class CreditsService {
         creditsRepository.credits_edits(semester, credit_object, id);
     }
 
-    public void credit_delete(int semester){
-        creditsRepository.credits_delete(semester);;
+    public void credit_delete(int semester, String id){
+        creditsRepository.credits_delete(semester, id);;
     }
 }

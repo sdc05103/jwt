@@ -25,9 +25,6 @@ public class creditsRepository {
 
 
     public void credits_edit(Credit credit_object){
-
-
-
     }
 
     public List<Credit> find(int semester, String id) {
@@ -82,8 +79,8 @@ public class creditsRepository {
         }
     }
 
-    public void credits_delete(int semester){
-        String sql = "DELETE FROM class_list WHERE member_id = '12' AND SEMESTER = ?";
+    public void credits_delete(int semester, String id){
+        String sql = "DELETE FROM class_list WHERE member_id = ? AND SEMESTER = ?";
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -91,7 +88,8 @@ public class creditsRepository {
         try {
             conn = getConnection();
             pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, semester);
+            pstmt.setString(1, id);
+            pstmt.setInt(2, semester);
             pstmt.executeUpdate();
         } catch (Exception e) {
             throw new IllegalStateException(e);
@@ -108,9 +106,6 @@ public class creditsRepository {
         try {
             conn = getConnection();
             pstmt = conn.prepareStatement(sql);
-//            pstmt.setInt(1, 1);
-//            pstmt.setString(2, "12");
-//            pstmt.setLong(1, credit_object.getPid());
             pstmt.setInt(1, semester);
             pstmt.setString(2, id);
             pstmt.setInt(3, credit_object.getCid());
