@@ -25,7 +25,7 @@ public class RcmMajorController {
     private final RcmMajorService rcmMajorService;
 
     @ResponseBody
-    @RequestMapping (value = "api/chatbot1")
+    @RequestMapping (value = "/api/chatbot1")
     public ResponseEntity<String> HopeMajorEdit(@RequestBody HopeMajorDTO hope_major, @RequestHeader("Authorization") String token) {
 
         String id = Jwts.parserBuilder()
@@ -55,7 +55,7 @@ public class RcmMajorController {
     }
 
     @ResponseBody
-    @RequestMapping (value = "api/chatbot2")
+    @RequestMapping (value = "/api/chatbot2")
     public ResponseEntity<String> RecommendMajorEdit(@RequestBody List<RcmMajorDTO> rcmMajorDTO, @RequestHeader("Authorization") String token) {
 
         String id = Jwts.parserBuilder()
