@@ -64,6 +64,8 @@ public class RcmMajorController {
                 .parseClaimsJws(token)
                 .getBody().getSubject();
 
+        ///이전에 저장돼있던 추천학과 삭제하는 함수 추가////////
+
         String major1 = rcmMajorDTO.getRcmMajor1();
         String major2 = rcmMajorDTO.getRcmMajor2();
         String major3 = rcmMajorDTO.getRcmMajor3();
@@ -73,6 +75,8 @@ public class RcmMajorController {
         int rcm_major_id3 = rcmMajorService.findMajorId(major3);
 
         System.out.println(rcm_major_id2);
+
+
 
         return ResponseEntity.ok("Successfully processed major data");
     }
