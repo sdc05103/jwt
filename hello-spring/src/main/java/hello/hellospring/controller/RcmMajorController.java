@@ -6,6 +6,7 @@ import hello.hellospring.domain.RcmMajor;
 import hello.hellospring.domain.Subject;
 import hello.hellospring.dto.CreditEditDTO;
 import hello.hellospring.dto.HopeMajorDTO;
+import hello.hellospring.dto.RcmMajorDTO;
 import hello.hellospring.repository.RcmMajorRepository;
 import hello.hellospring.service.RcmMajorService;
 import io.jsonwebtoken.Jwts;
@@ -37,9 +38,7 @@ public class RcmMajorController {
 
         String major = hope_major.getHopeMajor();
 
-        System.out.println(major);
         int hope_major_id = rcmMajorService.findMajorId(major);
-        System.out.println(hope_major_id);
 
         RcmMajor rcmMajor = new RcmMajor();
         rcmMajor.setSid(id);
@@ -54,5 +53,30 @@ public class RcmMajorController {
 
         return ResponseEntity.ok("Successfully processed major data");
     }
-}
+
+    @ResponseBody
+    @RequestMapping (value = "api/chatbot2")
+    public ResponseEntity<String> RecommendMajorEdit(@RequestBody RcmMajorDTO rcmMajorDTO, @RequestHeader("Authorization") String token) {
+
+        String id = Jwts.parserBuilder()
+                .setSigningKey("c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK" .getBytes())
+                .build()
+                .parseClaimsJws(token)
+                .getBody().getSubject();
+
+        String major1 = rcmMajorDTO.getRcmMajor1();
+        String major2 = rcmMajorDTO.getRcmMajor2();
+        String major3 = rcmMajorDTO.getRcmMajor3();
+
+        int rcm_major_id1 = rcmMajorService.findMajorId(major1);
+        int rcm_major_id2 = rcmMajorService.findMajorId(major2);
+        int rcm_major_id3 = rcmMajorService.findMajorId(major3);
+
+        System.out.println(rcm_major_id2);
+
+        return ResponseEntity.ok("Successfully processed major data");
+    }
+
+
+    }
 

@@ -24,13 +24,11 @@ public class RcmMajorRepository {
     }
 
     public int findMajorId(String major){
-        System.out.println("here");
         String sql = "SELECT pid FROM major WHERE 학과 = ?";
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
-            System.out.println("here");
             conn = getConnection();
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, major);
