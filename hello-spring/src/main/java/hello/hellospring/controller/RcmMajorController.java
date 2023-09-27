@@ -56,7 +56,7 @@ public class RcmMajorController {
 
     @ResponseBody
     @RequestMapping (value = "api/chatbot2")
-    public ResponseEntity<String> RecommendMajorEdit(@RequestBody RcmMajorDTO rcmMajorDTO, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<String> RecommendMajorEdit(@RequestBody List<RcmMajorDTO> rcmMajorDTO, @RequestHeader("Authorization") String token) {
 
         String id = Jwts.parserBuilder()
                 .setSigningKey("c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK" .getBytes())
@@ -66,17 +66,17 @@ public class RcmMajorController {
 
         ///이전에 저장돼있던 추천학과 삭제하는 함수 추가////////
 
-        String major1 = rcmMajorDTO.getRcmMajor1();
-        String major2 = rcmMajorDTO.getRcmMajor2();
-        String major3 = rcmMajorDTO.getRcmMajor3();
+        List<String> major_list = new ArrayList<>();
 
-        int rcm_major_id1 = rcmMajorService.findMajorId(major1);
-        int rcm_major_id2 = rcmMajorService.findMajorId(major2);
-        int rcm_major_id3 = rcmMajorService.findMajorId(major3);
+        for (RcmMajorDTO major : rcmMajorDTO){
+            major_list.add(major.getResultMajor());
+        }
+
+        int rcm_major_id1 = rcmMajorService.findMajorId(major_list.get(0));
+        int rcm_major_id2 = rcmMajorService.findMajorId(major_list.get(1));
+        int rcm_major_id3 = rcmMajorService.findMajorId(major_list.get(2));
 
         System.out.println(rcm_major_id2);
-
-
 
         return ResponseEntity.ok("Successfully processed major data");
     }
