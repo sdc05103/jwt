@@ -21,8 +21,24 @@ public class GuideController {
                 .parseClaimsJws(token)
                 .getBody().getSubject();
 
-        List<GuideDTO> GuideList;
 
+        //채윤 코드
+        //로그인 된 유저의 추천 major 받아오는 코드
+
+
+        //더미데이터
+        String major1 = "컴퓨터공학과";
+        String major2 = "인공지능학과";
+        String major3 = "소프트웨어학과";
+
+
+        //IF문
+        //유저의 가이드 데이터가 디비에 있는 경우 그대로 리턴
+        List<GuideDTO> GuideList = //디비에서 받아오는 코드;
+
+
+        //ELSE문
+        //그렇지 않은 경우 생성
 
 
 
