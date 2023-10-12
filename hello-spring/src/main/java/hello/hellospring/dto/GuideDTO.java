@@ -9,7 +9,7 @@ public class GuideDTO {
     private String major;
     private SubjectDataDTO subjectData;
 
-    public String GuideDTO(String major, SubjectDataDTO subjectData){
+    public GuideDTO(String major, SubjectDataDTO subjectData){
         this.major = major;
         this.subjectData = subjectData;
     }
