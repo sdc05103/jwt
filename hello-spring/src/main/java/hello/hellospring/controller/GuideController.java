@@ -1,5 +1,6 @@
 package hello.hellospring.controller;
 
+import hello.hellospring.dto.GuideDTO;
 import hello.hellospring.service.GuideService;
 import io.jsonwebtoken.Jwts;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +19,7 @@ public class GuideController {
     }
 
     @GetMapping(value = "/api/guide")
-//    public List<GuideDTO> creditShow(@RequestHeader("Authorization") String token) {
-    public List<String> creditShow(@RequestHeader("Authorization") String token) {
+    public List<GuideDTO> creditShow(@RequestHeader("Authorization") String token) {
 
         String id = Jwts.parserBuilder()
                 .setSigningKey("c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK" .getBytes())
@@ -32,12 +32,11 @@ public class GuideController {
         //로그인 된 유저의 추천 major 받아오는 코드
         List<String> major_list = guideService.showAll(id);
 
-
         //major가 1개인지 3개인지 검사
         //major 개수만큼 실행하는 반복문(1 or 3)
         //for(int i=0 ; i<major_num; i++)
 
-            String major = major_list.get(i);
+            //String major = major_list.get(i);
             //IF : 유저의 가이드 데이터가 디비에 있는 경우 그대로 리턴
                 // List<GuideDTO> GuideList = 디비에서 받아오는 코드;
                 // return GuideList;
