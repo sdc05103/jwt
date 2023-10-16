@@ -1,5 +1,6 @@
 package hello.hellospring.controller;
 
+import hello.hellospring.dto.AllClassDTO;
 import hello.hellospring.dto.GuideDTO;
 import hello.hellospring.service.GuideService;
 import io.jsonwebtoken.Jwts;
@@ -19,8 +20,7 @@ public class GuideController {
     }
 
     @GetMapping(value = "/api/guide")
-    //public List<GuideDTO>
-    void creditShow(@RequestHeader("Authorization") String token) {
+    public List<GuideDTO> creditShow(@RequestHeader("Authorization") String token) {
 
         String id = Jwts.parserBuilder()
                 .setSigningKey("c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK" .getBytes())
@@ -47,9 +47,12 @@ public class GuideController {
             //ELSE : 그렇지 않은 경우 생성
             //여기까지 채윤
 
-                //진현
-                //이미 들은 과목 가져오기 - (class_list, class, subject 조인)
+                //진현 - 다 했어요.
+                //모든 과목 가져오기 - (class, subject 조인)
+                String major = "컴퓨터공학과"; //더미 데이터
+                List<AllClassDTO> GuideList = guideService.getAllClass(major);
 
+                //이미 들은 과목 가져오기 - (class_list, class, subject 조인)
                 //해당 전공에 추천하는 과목 다 받아오기 (major_list에서 받아온 다음, 파싱 작업 후 class, subject 조인해서 각 과목에 해당하는 학점, 계열 가져오기)
                 //모든 과목 가져오기 - (class, subject 조인)
 

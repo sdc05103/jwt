@@ -3,6 +3,8 @@ package hello.hellospring.service;
 import hello.hellospring.domain.Classes;
 import hello.hellospring.domain.Credit;
 import hello.hellospring.domain.Subject;
+import hello.hellospring.dto.AllClassDTO;
+import hello.hellospring.dto.GuideDTO;
 import hello.hellospring.repository.GuideRepository;
 import org.springframework.context.annotation.Configuration;
 import hello.hellospring.repository.GuideRepository;
@@ -18,6 +20,10 @@ public class GuideService {
 
     public GuideService(hello.hellospring.repository.GuideRepository guideRepository){
         this.guideRepository = guideRepository;
+    }
+
+    public List<AllClassDTO> getAllClass(String major) {
+        return guideRepository.getAllClass(major);
     }
 
     public List<String> showAll(String id){

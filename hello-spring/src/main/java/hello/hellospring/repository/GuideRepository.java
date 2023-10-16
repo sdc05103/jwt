@@ -1,6 +1,8 @@
 package hello.hellospring.repository;
 
 import hello.hellospring.domain.*;
+import hello.hellospring.dto.AllClassDTO;
+import hello.hellospring.dto.GuideDTO;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
@@ -76,5 +78,30 @@ public class GuideRepository {
     }
     private void close(Connection conn) throws SQLException {
         DataSourceUtils.releaseConnection(conn, dataSource);
+    }
+
+    public List<AllClassDTO> getAllClass(String major) {
+        String sql = "select c.name as class_name, c.credit as credit, s.name as subject_name from class c, subject s where c.sid = s.sid";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = dataSource.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+            List<AllClassDTO> class_list = new ArrayList<>();
+            while (rs.next()) {
+                AllClassDTO class_element = new AllClassDTO();
+                class_element.setClass_name(rs.getString("class_name"));
+                class_element.setCredit(rs.getString("credit"));
+                class_element.setSubject_name(rs.getString("subject_name"));
+                class_list.add(class_element);
+            }
+            return class_list;
+        }catch (Exception e) {
+            throw new IllegalStateException(e);
+        }finally {
+            close(conn, pstmt, rs);
+        }
     }
 }
