@@ -32,9 +32,11 @@ public class GuideController {
         //로그인 된 유저의 추천 major 받아오는 코드
         List<String> major_list = guideService.showAll(id);
 
+        //채윤
         //major가 1개인지 3개인지 검사
         //major 개수만큼 실행하는 반복문(1 or 3)
         //for(int i=0 ; i<major_num; i++)
+
 
             //String major = major_list.get(i);
             //IF : 유저의 가이드 데이터가 디비에 있는 경우 그대로 리턴
@@ -42,8 +44,12 @@ public class GuideController {
                 // return GuideList;
 
             //ELSE : 그렇지 않은 경우 생성
+            //여기까지 채윤
+
+                //진현
                 //이미 들은 과목 가져오기 - (class_list, class, subject 조인)
-                //해당 전공에 추천하는 과목 다 받s아오기 (major_list에서 받아온 다음, 파싱 작업 후 class, subject 조인해서 각 과목에 해당하는 학점, 계열 가져오기)
+
+                //해당 전공에 추천하는 과목 다 받아오기 (major_list에서 받아온 다음, 파싱 작업 후 class, subject 조인해서 각 과목에 해당하는 학점, 계열 가져오기)
                 //모든 과목 가져오기 - (class, subject 조인)
 
                 //모든 과목 수만큼 반복
