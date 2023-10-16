@@ -1,19 +1,25 @@
 package hello.hellospring.controller;
 
-import hello.hellospring.dto.CreditEditDTO;
-import hello.hellospring.dto.GuideDTO;
+import hello.hellospring.service.GuideService;
 import io.jsonwebtoken.Jwts;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
+@RestController
 public class GuideController {
 
+    private final GuideService guideService;
+
+    public GuideController(GuideService guideService) {
+        this.guideService = guideService;
+    }
+
     @GetMapping(value = "/api/guide")
-    public List<GuideDTO> creditShow(@RequestHeader("Authorization") String token) {
+//    public List<GuideDTO> creditShow(@RequestHeader("Authorization") String token) {
+    public List<String> creditShow(@RequestHeader("Authorization") String token) {
 
         String id = Jwts.parserBuilder()
                 .setSigningKey("c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK" .getBytes())
@@ -21,15 +27,17 @@ public class GuideController {
                 .parseClaimsJws(token)
                 .getBody().getSubject();
 
+        System.out.println(id);
 
-        //채윤 코드
         //로그인 된 유저의 추천 major 받아오는 코드
+        List<String> major_list = guideService.showAll(id);
 
+        return major_list;
 
         //더미데이터
-        String major1 = "컴퓨터공학과";
-        String major2 = "인공지능학과";
-        String major3 = "소프트웨어학과";
+//        String major1 = "컴퓨터공학과";
+//        String major2 = "인공지능학과";
+//        String major3 = "소프트웨어학과";
 
 
         //major가 1개인지 3개인지 검사
