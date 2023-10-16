@@ -80,6 +80,8 @@ public class RcmMajorController {
         System.out.println(rcm_major_id2);
         System.out.println(rcm_major_id3);
 
+        rcmMajorService.RcmMajorEdit(rcm_major_id1, rcm_major_id2, rcm_major_id3, id);
+
         return ResponseEntity.ok("Successfully processed major data");
     }
 

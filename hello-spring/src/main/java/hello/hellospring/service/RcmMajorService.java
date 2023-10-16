@@ -21,4 +21,7 @@ public class RcmMajorService {
         rcmMajorRepository.RcmMajorEdit(major);
     }
 
+    public void RcmMajorEdit(int rcmMajorId1, int rcmMajorId2, int rcmMajorId3, String sid) {
+        rcmMajorRepository.RcmMajorEdit(rcmMajorId1, rcmMajorId2, rcmMajorId3, sid);
+    }
 }

@@ -19,7 +19,8 @@ public class GuideController {
     }
 
     @GetMapping(value = "/api/guide")
-    public List<GuideDTO> creditShow(@RequestHeader("Authorization") String token) {
+    //public List<GuideDTO>
+    void creditShow(@RequestHeader("Authorization") String token) {
 
         String id = Jwts.parserBuilder()
                 .setSigningKey("c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK" .getBytes())

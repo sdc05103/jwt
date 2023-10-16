@@ -68,6 +68,29 @@ public class RcmMajorRepository {
         }
     }
 
+    public void RcmMajorEdit(int rcmMajorId1, int rcmMajorId2, int rcmMajorId3, String sid) {
+        String sql = "INSERT INTO recommended_major (mid1, mid2, mid3, sid) VALUES (?, ?, ?, ?)";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+//            pstmt.setInt(1, 1);
+//            pstmt.setString(2, "12");
+//            pstmt.setLong(1, credit_object.getPid());
+            pstmt.setInt(1, rcmMajorId1);
+            pstmt.setInt(2, rcmMajorId2);
+            pstmt.setInt(3, rcmMajorId3);
+            pstmt.setString(4, sid);
+            pstmt.executeUpdate();
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        } finally {
+            close(conn, pstmt, rs);
+        }
+    }
+
     private Connection getConnection() {
         return DataSourceUtils.getConnection(dataSource);
     }
@@ -100,5 +123,4 @@ public class RcmMajorRepository {
     private void close(Connection conn) throws SQLException {
         DataSourceUtils.releaseConnection(conn, dataSource);
     }
-
 }
