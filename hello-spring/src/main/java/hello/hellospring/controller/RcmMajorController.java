@@ -76,7 +76,9 @@ public class RcmMajorController {
         int rcm_major_id2 = rcmMajorService.findMajorId(major_list.get(1));
         int rcm_major_id3 = rcmMajorService.findMajorId(major_list.get(2));
 
+        System.out.println(rcm_major_id1);
         System.out.println(rcm_major_id2);
+        System.out.println(rcm_major_id3);
 
         return ResponseEntity.ok("Successfully processed major data");
     }
