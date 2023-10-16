@@ -35,17 +35,20 @@ public class GuideController {
 
         //채윤
         //major가 1개인지 3개인지 검사
+        //int major_num =
         //major 개수만큼 실행하는 반복문(1 or 3)
-        //for(int i=0 ; i<major_num; i++)
-
+        for(int i=0 ; i<major_num; i++) {
 
             //String major = major_list.get(i);
-            //IF : 유저의 가이드 데이터가 디비에 있는 경우 그대로 리턴
+            //IF : 유저의 가이드 데이터가 디비에 있는 경우 그대로 리턴 //total_guide 테이블에 현재 사용자 id 있는지 check
+            if() {
                 // List<GuideDTO> GuideList = 디비에서 받아오는 코드;
                 // return GuideList;
+            }
 
             //ELSE : 그렇지 않은 경우 생성
             //여기까지 채윤
+            else {
 
                 //진현 - 다 했어요.
                 //모든 과목 가져오기 - (class, subject 조인)
@@ -57,14 +60,15 @@ public class GuideController {
                 //모든 과목 가져오기 - (class, subject 조인)
 
                 //모든 과목 수만큼 반복
-                    //DTO에 과목 추가(default : recommend=false, complete=0, chosen=false)
+                //DTO에 과목 추가(default : recommend=false, complete=0, chosen=false)
 
                 //추천 과목 수만큼 반복
-                    //DTO에 추천 과목은 recommend를 true로 변경, chosen을 true로 변경
+                //DTO에 추천 과목은 recommend를 true로 변경, chosen을 true로 변경
 
                 //이미 들은 과목 수만큼 반복
-                    //DTO에 이미 들은 과목은 complete를 들은 학기로 숫자 변경, chosen을 true로 변경
-
+                //DTO에 이미 들은 과목은 complete를 들은 학기로 숫자 변경, chosen을 true로 변경
+            }
+        }
         //반복문 종료
     }
 }
