@@ -33,17 +33,19 @@ public class GuideController {
         //로그인 된 유저의 추천 major 받아오는 코드
         List<String> major_list = guideService.showAll(id);
 
+
         //채윤
-        //major가 1개인지 3개인지 검사
-        //int major_num =
+        //major가 1개인지 3개인지 검사(list 요소의 개수 확인하는 함수)
+        int major_num = major_list.size();
+
         //major 개수만큼 실행하는 반복문(1 or 3)
         for(int i=0 ; i<major_num; i++) {
 
-            //String major = major_list.get(i);
+            String major = major_list.get(i);
             //IF : 유저의 가이드 데이터가 디비에 있는 경우 그대로 리턴 //total_guide 테이블에 현재 사용자 id 있는지 check
-            if() {
-                // List<GuideDTO> GuideList = 디비에서 받아오는 코드;
-                // return GuideList;
+            if(id == guideService.getSID(id)) { //로그인한 사용자의 id와 total_guide의 sid가 같다면
+                List<GuideDTO> GuideList = guideService.getAllTotalguide(id);
+                return GuideList;
             }
 
             //ELSE : 그렇지 않은 경우 생성

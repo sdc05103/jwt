@@ -3,6 +3,7 @@ package hello.hellospring.repository;
 import hello.hellospring.domain.*;
 import hello.hellospring.dto.AllClassDTO;
 import hello.hellospring.dto.GuideDTO;
+import hello.hellospring.dto.SubjectDataDTO;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
@@ -104,4 +105,68 @@ public class GuideRepository {
             close(conn, pstmt, rs);
         }
     }
+
+
+    public List<GuideDTO> getAllTotalguide(String id) {
+        String sql = "select * from total_guide where sid = ?";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = dataSource.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, id);
+            rs = pstmt.executeQuery();
+            List<GuideDTO> guide_list = new ArrayList<>();
+            while (rs.next()) {
+                String major = rs.getString("major");
+
+                // SubjectDataDTO를 생성하고 설정
+               SubjectDataDTO subjectData = new SubjectDataDTO(
+                        rs.getString("category"),
+                        rs.getString("subject"),
+                        rs.getString("classes"),
+                        rs.getInt("credit"),
+                        rs.getString("course"),
+                        rs.getBoolean("complete"),
+                        rs.getBoolean("recommend"),
+                        rs.getBoolean("chosen")
+                );
+
+                GuideDTO guide_element = new GuideDTO(major, subjectData);
+                guide_list.add(guide_element);
+            }
+            return guide_list;
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        } finally {
+            close(conn, pstmt,rs);
+        }
+    }
+
+    public String getSID(String id){
+        String sql = "select t.sid from total_guide t, member m where t.pid = m.id ";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try{
+            conn = dataSource.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, id);
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                id = rs.getString("sid");
+            }
+
+        } catch (Exception e) {
+            // 예외 처리
+            e.printStackTrace(); // 예외 정보를 출력하거나 다른 처리를 수행할 수 있습니다.
+        } finally {
+            close(conn, pstmt,rs);
+        }
+        return id;
+    }
+
+
 }

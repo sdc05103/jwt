@@ -26,8 +26,17 @@ public class GuideService {
         return guideRepository.getAllClass(major);
     }
 
+
+    public List<GuideDTO> getAllTotalguide(String id){
+        return guideRepository.getAllTotalguide(id);
+    }
+
     public List<String> showAll(String id){
         System.out.println("service");
         return guideRepository.getMajor(id);
+    }
+
+    public String getSID(String sid){
+        return guideRepository.getSID(sid);
     }
 }
