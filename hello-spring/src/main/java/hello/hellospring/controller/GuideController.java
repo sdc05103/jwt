@@ -54,7 +54,6 @@ public class GuideController {
 
                 //진현 - 다 했어요.
                 //모든 과목 가져오기 - (class, subject 조인)
-                String major = "컴퓨터공학과"; //더미 데이터
                 List<AllClassDTO> GuideList = guideService.getAllClass(major);
 
                 //이미 들은 과목 가져오기 - (class_list, class, subject 조인)
