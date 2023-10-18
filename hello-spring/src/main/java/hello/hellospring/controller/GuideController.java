@@ -54,7 +54,8 @@ public class GuideController {
 
                 //진현 - 다 했어요.
                 //모든 과목 가져오기 - (class, subject 조인)
-                List<AllClassDTO> GuideList = guideService.getAllClass(major);
+                List<AllClassDTO> AllClassList = guideService.getAllClass(major);
+
 
                 //이미 들은 과목 가져오기 - (class_list, class, subject 조인)
                 //해당 전공에 추천하는 과목 다 받아오기 (major_list에서 받아온 다음, 파싱 작업 후 class, subject 조인해서 각 과목에 해당하는 학점, 계열 가져오기)
