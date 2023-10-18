@@ -107,8 +107,8 @@ public class GuideRepository {
     }
 
 
-    public List<GuideDTO> getAllTotalguide(String id) {
-        String sql = "select * from total_guide where sid = ?";
+    public GuideDTO getAllTotalguide(String id, String major) {
+        String sql = "select * from total_guide where sid = ? and major = ?";
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -116,27 +116,29 @@ public class GuideRepository {
             conn = dataSource.getConnection();
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, id);
+            pstmt.setString(2, major);
             rs = pstmt.executeQuery();
-            List<GuideDTO> guide_list = new ArrayList<>();
+
+            List<SubjectDataDTO> subjectDataDTOList = new ArrayList<>();
+
             while (rs.next()) {
-                String major = rs.getString("major");
 
                 // SubjectDataDTO를 생성하고 설정
                SubjectDataDTO subjectData = new SubjectDataDTO(
                         rs.getString("category"),
                         rs.getString("subject"),
-                        rs.getString("classes"),
+                        rs.getString("class"),
                         rs.getInt("credit"),
                         rs.getString("course"),
                         rs.getBoolean("complete"),
                         rs.getBoolean("recommend"),
                         rs.getBoolean("chosen")
                 );
-
-                GuideDTO guide_element = new GuideDTO(major, subjectData);
-                guide_list.add(guide_element);
+               subjectDataDTOList.add(subjectData);
             }
+            GuideDTO guide_list = new GuideDTO(major, subjectDataDTOList);
             return guide_list;
+
         } catch (Exception e) {
             throw new IllegalStateException(e);
         } finally {
@@ -145,7 +147,7 @@ public class GuideRepository {
     }
 
     public String getSID(String id){
-        String sql = "select t.sid from total_guide t, member m where t.pid = m.id ";
+        String sql = "select t.sid from total_guide t, member m where t.pid = m.id = ? ";
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;

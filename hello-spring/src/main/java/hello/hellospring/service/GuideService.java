@@ -27,12 +27,11 @@ public class GuideService {
     }
 
 
-    public List<GuideDTO> getAllTotalguide(String id){
-        return guideRepository.getAllTotalguide(id);
+    public GuideDTO getAllTotalguide(String id, String major){
+        return guideRepository.getAllTotalguide(id, major);
     }
 
     public List<String> showAll(String id){
-        System.out.println("service");
         return guideRepository.getMajor(id);
     }
 
