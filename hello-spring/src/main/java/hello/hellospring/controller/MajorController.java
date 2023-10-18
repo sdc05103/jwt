@@ -33,5 +33,6 @@ public class MajorController {
 
         return majorDetailDTO;
 
+
     }
 }
