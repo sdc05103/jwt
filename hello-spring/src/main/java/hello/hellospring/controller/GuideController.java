@@ -56,15 +56,23 @@ public class GuideController {
                 List<AllClassDTO> AllClassList = guideService.getAllClass(major);
                 GuideList = null;
 
+                //채윤 공통과목 디비에 넣기
+
                 //이미 들은 과목 가져오기 - (class_list, class, subject 조인)
-                //해당 전공에 추천하는 과목 다 받아오기 (major_list에서 받아온 다음, 파싱 작업 후 class, subject 조인해서 각 과목에 해당하는 학점, 계열 가져오기)
+                //진현
 
+                //해당 전공에 추천하는 과목 다 받아오기 (major_detail에서 받아온 다음, 파싱 작업 후 class, subject 조인해서 각 과목에 해당하는 학점, 계열 가져오기)
+                //채윤
+
+                //진현
                 //모든 과목 수만큼 반복
-                //DTO에 과목 추가(default : recommend=false, complete=0, chosen=false)
+                //guideDTO에 과목 추가(default : recommend=false, complete=0, chosen=false)
 
+                //채윤
                 //추천 과목 수만큼 반복
                 //DTO에 추천 과목은 recommend를 true로 변경, chosen을 true로 변경
 
+                //진현
                 //이미 들은 과목 수만큼 반복
                 //DTO에 이미 들은 과목은 complete를 들은 학기로 숫자 변경, chosen을 true로 변경
             }
