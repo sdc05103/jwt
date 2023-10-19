@@ -18,7 +18,7 @@ public class MajorController {
         this.majorsService = majorsService;
     }
     @ResponseBody
-    @GetMapping(value = "/major", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/api/major", consumes = MediaType.APPLICATION_JSON_VALUE)
     public MajorDetailDTO majorShow(@RequestBody MajorRequestDTO majorRequestDTO) {
 
         String major_name = majorRequestDTO.getMajor_name();
