@@ -65,10 +65,10 @@ public class GuideController {
                 List<AllClassDTO> AllClassList = guideService.getAllClass(major);
 
 
-
-                //채윤 공통과목 디비에 넣기
-
-
+                //채윤 - 공통과목 디비에 넣기
+                //subject 테이블에 '국어0', '영어0', '수학0'처럼 끝자리가 0인 subject 행을 생성하신 후
+                //해당 subject 행의 sid에 매칭하여서
+                //class 테이블에 공통과목을 넣어주세요.
 
                 //진현 - 10/21 완료
                 //이미 들은 과목 가져오기 - (class_list, class, subject 조인)
