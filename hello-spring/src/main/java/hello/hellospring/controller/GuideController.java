@@ -127,6 +127,10 @@ public class GuideController {
 
     }
 
+
+    //post mapping method implement
+
+
     public static String split_head(String input) {
         if (input == null || input.isEmpty()) {
             return ""; // 빈 문자열이나 null일 경우 빈 문자열을 반환
