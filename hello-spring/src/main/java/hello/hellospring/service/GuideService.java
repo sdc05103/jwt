@@ -4,6 +4,7 @@ import hello.hellospring.domain.Classes;
 import hello.hellospring.domain.Credit;
 import hello.hellospring.domain.Subject;
 import hello.hellospring.dto.AllClassDTO;
+import hello.hellospring.dto.CompleteDTO;
 import hello.hellospring.dto.GuideDTO;
 import hello.hellospring.repository.GuideRepository;
 import org.springframework.context.annotation.Configuration;
@@ -37,5 +38,8 @@ public class GuideService {
 
     public String getSID(String sid){
         return guideRepository.getSID(sid);
+    }
+
+    public List<CompleteDTO> getCompleteClass(String id) { return guideRepository.getCompleteClass(id);
     }
 }

@@ -2,6 +2,7 @@ package hello.hellospring.repository;
 
 import hello.hellospring.domain.*;
 import hello.hellospring.dto.AllClassDTO;
+import hello.hellospring.dto.CompleteDTO;
 import hello.hellospring.dto.GuideDTO;
 import hello.hellospring.dto.SubjectDataDTO;
 import org.springframework.jdbc.datasource.DataSourceUtils;
@@ -94,7 +95,7 @@ public class GuideRepository {
             while (rs.next()) {
                 AllClassDTO class_element = new AllClassDTO();
                 class_element.setClass_name(rs.getString("class_name"));
-                class_element.setCredit(rs.getString("credit"));
+                class_element.setCredit(rs.getInt("credit"));
                 class_element.setSubject_name(rs.getString("subject_name"));
                 class_list.add(class_element);
             }
@@ -130,7 +131,7 @@ public class GuideRepository {
                         rs.getString("class"),
                         rs.getInt("credit"),
                         rs.getString("course"),
-                        rs.getBoolean("complete"),
+                        rs.getInt("complete"),
                         rs.getBoolean("recommend"),
                         rs.getBoolean("chosen")
                 );
@@ -171,4 +172,29 @@ public class GuideRepository {
     }
 
 
+    public List<CompleteDTO> getCompleteClass(String id) {
+        String sql = "select c.name as 'class_name', cl.credit as 'credit', s.name as 'subject' from class_list cl, class c, subject s where cl.member_id = ? and cl.class_id = c.cid and c.sid = s.sid;";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = dataSource.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, id);
+            rs = pstmt.executeQuery();
+            List<CompleteDTO> class_list = new ArrayList<>();
+            while (rs.next()) {
+                CompleteDTO class_element = new CompleteDTO();
+                class_element.setClass_name(rs.getString("class_name"));
+                class_element.setCredit(rs.getString("credit"));
+                class_element.setSubject_name(rs.getString("subject"));
+                class_list.add(class_element);
+            }
+            return class_list;
+        }catch (Exception e) {
+            throw new IllegalStateException(e);
+        }finally {
+            close(conn, pstmt, rs);
+        }
+    }
 }

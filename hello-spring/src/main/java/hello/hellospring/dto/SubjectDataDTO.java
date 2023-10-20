@@ -12,14 +12,14 @@ public class SubjectDataDTO {
     private String classes;
     private int credit;
     private String course;
-    private boolean complete;
+    private int complete;
     private boolean recommend;
     private boolean chosen;
 
     public SubjectDataDTO(){}
 
     public SubjectDataDTO(String category, String subject, String className, int credit, String course,
-                          boolean complete, boolean recommend, boolean chosen) {
+                          int complete, boolean recommend, boolean chosen) {
         this.category = category;
         this.subject = subject;
         this.classes = className;

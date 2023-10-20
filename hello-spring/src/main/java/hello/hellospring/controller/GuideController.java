@@ -1,7 +1,9 @@
 package hello.hellospring.controller;
 
 import hello.hellospring.dto.AllClassDTO;
+import hello.hellospring.dto.CompleteDTO;
 import hello.hellospring.dto.GuideDTO;
+import hello.hellospring.dto.SubjectDataDTO;
 import hello.hellospring.service.GuideService;
 import io.jsonwebtoken.Jwts;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,13 +31,20 @@ public class GuideController {
                 .parseClaimsJws(token)
                 .getBody().getSubject();
 
+
         //로그인 된 유저의 추천 major 받아오는 코드
         List<String> major_list = guideService.showAll(id);
 
         //major가 1개인지 3개인지 검사(list 요소의 개수 확인하는 함수)
         int major_num = major_list.size();
         List<GuideDTO> GuideList = new ArrayList<>();
-        
+
+        ////*********************** 채윤 보시오 *************************************///
+        ///major가 3개여도 반복문이 한 번만 실행되는 문제가 있습니다.
+        ///user1 아이디를 예시로 실행해보시면 문제가 있는 것을 확인할 수 있습니다. (추천 전공 세개이나 하나만 뜸.)
+        ///확인하시고 수정 부탁드립니다.
+        ////*********************** 채윤 보시오 *************************************///
+
         //major 개수만큼 실행하는 반복문(1 or 3)
         for(int i=0 ; i<major_num; i++) {
 
@@ -54,23 +63,59 @@ public class GuideController {
 
                 //모든 과목 가져오기 - (class, subject 조인)
                 List<AllClassDTO> AllClassList = guideService.getAllClass(major);
-                GuideList = null;
+
+
 
                 //채윤 공통과목 디비에 넣기
 
+
+
+                //진현 - 10/21 완료
                 //이미 들은 과목 가져오기 - (class_list, class, subject 조인)
-                //진현
+                List<CompleteDTO> CompleteList = guideService.getCompleteClass(id);
 
-                //해당 전공에 추천하는 과목 다 받아오기 (major_detail에서 받아온 다음, 파싱 작업 후 class, subject 조인해서 각 과목에 해당하는 학점, 계열 가져오기)
+
+
                 //채윤
+                //해당 전공에 추천하는 과목 다 받아오기 (major_detail에서 받아온 다음, 파싱 작업 후 class, subject 조인해서 각 과목에 해당하는 학점, 계열 가져오기)
 
-                //진현
+
+
+                //진현 - 10/21 완료
                 //모든 과목 수만큼 반복
                 //guideDTO에 과목 추가(default : recommend=false, complete=0, chosen=false)
+                List<SubjectDataDTO> subjectDataDTOList = new ArrayList<>();
+
+                for (i = 0; i < AllClassList.size(); i++) {
+                    SubjectDataDTO subjectDataDTO = new SubjectDataDTO();
+                    AllClassDTO allClassDTO = AllClassList.get(i);
+
+                    subjectDataDTO.setCategory(split_head(allClassDTO.getSubject_name()));
+                    subjectDataDTO.setSubject(split_head(allClassDTO.getSubject_name()));
+                    subjectDataDTO.setClasses(allClassDTO.getClass_name());
+                    subjectDataDTO.setCredit(allClassDTO.getCredit());
+                    subjectDataDTO.setCourse(getCourse(split_tail(allClassDTO.getSubject_name())));
+                    subjectDataDTO.setComplete(0);
+                    subjectDataDTO.setRecommend(false);
+                    subjectDataDTO.setChosen(false);
+
+                    subjectDataDTOList.add(subjectDataDTO);
+                };
+
+                GuideDTO guideDTO = new GuideDTO(major, subjectDataDTOList);
+                GuideList.add(guideDTO);
+
+
+
+
 
                 //채윤
                 //추천 과목 수만큼 반복
                 //DTO에 추천 과목은 recommend를 true로 변경, chosen을 true로 변경
+
+
+
+
 
                 //진현
                 //이미 들은 과목 수만큼 반복
@@ -79,5 +124,32 @@ public class GuideController {
         }
         //반복문 종료
         return GuideList;
+
     }
+
+    public static String split_head(String input) {
+        if (input == null || input.isEmpty()) {
+            return ""; // 빈 문자열이나 null일 경우 빈 문자열을 반환
+        } else {
+            return input.substring(0, input.length() - 1);
+        }
+    }
+
+    public static char split_tail(String input) {
+            int len = input.length();
+            char last = input.charAt(len - 1); // 마지막 문자 추출
+            return last; // 마지막 문자를 문자열로 변환하여 반환
+    }
+
+    public static String getCourse(char num){
+        char zero = '0';
+        char one = '1';
+        char two = '2';
+
+        if(num == zero){return "공통";}
+        else if (num == one) {return "일반";}
+        else{return "진로";}
+    }
+
 }
+
