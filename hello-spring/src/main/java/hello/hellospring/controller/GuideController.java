@@ -120,6 +120,10 @@ public class GuideController {
                 //진현
                 //이미 들은 과목 수만큼 반복
                 //DTO에 이미 들은 과목은 complete를 들은 학기로 숫자 변경, chosen을 true로 변경
+                
+                
+                
+                //이 데이터를 디비에 저장
             }
         }
         //반복문 종료
