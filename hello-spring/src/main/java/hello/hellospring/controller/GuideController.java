@@ -115,8 +115,8 @@ public class GuideController {
                 GuideDTO guideDTO = new GuideDTO(major, subjectDataDTOList);
                 GuideList.add(guideDTO);
 
-
-
+                //진현
+                //total guide list를 디비에 넣어놓기
 
 
                 //채윤
