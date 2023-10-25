@@ -82,7 +82,7 @@ public class GuideController {
 
                 for (int j = 0; j < AllClassList.size(); j++) {
                     SubjectDataDTO subjectDataDTO = new SubjectDataDTO();
-                    AllClassDTO allClassDTO = AllClassList.get(i);
+                    AllClassDTO allClassDTO = AllClassList.get(j);
 
                     subjectDataDTO.setCategory(split_head(allClassDTO.getSubject_name()));
                     subjectDataDTO.setSubject(split_head(allClassDTO.getSubject_name()));
