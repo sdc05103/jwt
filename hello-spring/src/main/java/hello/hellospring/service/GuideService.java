@@ -40,6 +40,9 @@ public class GuideService {
         return guideRepository.getSID(sid);
     }
 
+    public List<String> getSubjectList(String major){
+        return guideRepository.getSubjectList(major);
+    }
     public List<CompleteDTO> getCompleteClass(String id) { return guideRepository.getCompleteClass(id);
     }
 }

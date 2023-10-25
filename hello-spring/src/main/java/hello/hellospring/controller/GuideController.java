@@ -1,5 +1,6 @@
 package hello.hellospring.controller;
 
+import com.mysql.cj.x.protobuf.MysqlxDatatypes;
 import hello.hellospring.dto.AllClassDTO;
 import hello.hellospring.dto.CompleteDTO;
 import hello.hellospring.dto.GuideDTO;
@@ -49,6 +50,7 @@ public class GuideController {
         for(int i=0 ; i<major_num; i++) {
 
             String major = major_list.get(i);
+            System.out.println(major);
 
             //IF : 유저의 가이드 데이터가 디비에 있는 경우 그대로 리턴 //total_guide 테이블에 현재 사용자 id 있는지 check
             if(id == guideService.getSID(id)) { //로그인한 사용자의 id와 total_guide의 sid가 같다면
@@ -65,7 +67,8 @@ public class GuideController {
                 List<AllClassDTO> AllClassList = guideService.getAllClass(major);
 
 
-                //채윤 - 공통과목 디비에 넣기
+                //채윤 - 10/25 완료
+                //공통과목 디비에 넣기 10/25 완료
                 //subject 테이블에 '국어0', '영어0', '수학0'처럼 끝자리가 0인 subject 행을 생성하신 후
                 //해당 subject 행의 sid에 매칭하여서
                 //class 테이블에 공통과목을 넣어주세요.
@@ -78,7 +81,8 @@ public class GuideController {
 
                 //채윤
                 //해당 전공에 추천하는 과목 다 받아오기 (major_detail에서 받아온 다음, 파싱 작업 후 class, subject 조인해서 각 과목에 해당하는 학점, 계열 가져오기)
-
+                List<String> subject_list = guideService.getSubjectList(major);
+                System.out.println(subject_list);
 
 
                 //진현 - 10/21 완료
