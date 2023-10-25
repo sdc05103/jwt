@@ -172,7 +172,7 @@ public class GuideRepository {
     }
 
     public List<String> getSubjectList(String major) {
-        String sql = "SELECT class_basic, class_course FROM major_detail WHERE pid = ?;";
+        String sql = "SELECT class_basic as '학과1', class_course as '학과2' FROM major_detail WHERE pid in (select pid from major where 학과 = ?);";
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -184,7 +184,8 @@ public class GuideRepository {
 
             List<String> subject_list = new ArrayList<>();
             while (rs.next()) {
-                subject_list.add(rs.getString("학과"));
+                subject_list.add(rs.getString("학과1"));
+                subject_list.add(rs.getString("학과2"));
             }
             return subject_list;
         } catch (Exception e) {

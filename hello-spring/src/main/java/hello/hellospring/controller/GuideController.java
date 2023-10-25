@@ -76,8 +76,10 @@ public class GuideController {
                 //채윤
                 //해당 전공에 추천하는 과목 다 받아오기 (major_detail에서 받아온 다음, 파싱 작업 후 class, subject 조인해서 각 과목에 해당하는 학점, 계열 가져오기)
                 List<String> subject_list = guideService.getSubjectList(major);
-                System.out.println(subject_list);
 
+                for(int j=0 ; j< subject_list.size() ; j++) {
+                    System.out.println(subject_list.get(j));
+                }
 
                 //진현 - 10/21 완료
                 //모든 과목 수만큼 반복
