@@ -171,6 +171,29 @@ public class GuideRepository {
         return id;
     }
 
+    public List<String> getSubjectList(String major) {
+        String sql = "SELECT class_basic, class_course FROM major_detail WHERE pid = ?;";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = dataSource.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, major);
+            rs = pstmt.executeQuery();
+
+            List<String> subject_list = new ArrayList<>();
+            while (rs.next()) {
+                subject_list.add(rs.getString("학과"));
+            }
+            return subject_list;
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        } finally {
+            close(conn, pstmt, rs);
+        }
+    }
+
 
     public List<CompleteDTO> getCompleteClass(String id) {
         String sql = "select c.name as 'class_name', cl.credit as 'credit', s.name as 'subject' from class_list cl, class c, subject s where cl.member_id = ? and cl.class_id = c.cid and c.sid = s.sid;";
