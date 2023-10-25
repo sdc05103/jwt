@@ -90,11 +90,21 @@ public class GuideController {
                     subjectDataDTO.setCredit(allClassDTO.getCredit());
                     subjectDataDTO.setCourse(getCourse(split_tail(allClassDTO.getSubject_name())));
                     subjectDataDTO.setComplete(0);
-                    subjectDataDTO.setRecommend(false);
-                    subjectDataDTO.setChosen(false);
+
+                    //공통과목인 경우
+                    if(getCourse(split_tail(allClassDTO.getSubject_name()))=="공통"){
+                        subjectDataDTO.setRecommend(true);
+                        subjectDataDTO.setChosen(true);
+                    }
+
+                    //일반, 진로과목인 경우
+                    else {
+                        subjectDataDTO.setRecommend(false);
+                        subjectDataDTO.setChosen(false);
+                    }
 
                     subjectDataDTOList.add(subjectDataDTO);
-                };
+                }
 
                 GuideDTO guideDTO = new GuideDTO(major, subjectDataDTOList);
                 GuideList.add(guideDTO);
