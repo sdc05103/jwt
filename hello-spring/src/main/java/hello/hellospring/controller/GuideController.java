@@ -40,12 +40,6 @@ public class GuideController {
         int major_num = major_list.size();
         List<GuideDTO> GuideList = new ArrayList<>();
 
-        ////*********************** 채윤 보시오 *************************************///
-        ///major가 3개여도 반복문이 한 번만 실행되는 문제가 있습니다.
-        ///user1 아이디를 예시로 실행해보시면 문제가 있는 것을 확인할 수 있습니다. (추천 전공 세개이나 하나만 뜸.)
-        ///확인하시고 수정 부탁드립니다.
-        ////*********************** 채윤 보시오 *************************************///
-
         //major 개수만큼 실행하는 반복문(1 or 3)
         for(int i=0 ; i<major_num; i++) {
 
@@ -90,9 +84,9 @@ public class GuideController {
                 //guideDTO에 과목 추가(default : recommend=false, complete=0, chosen=false)
                 List<SubjectDataDTO> subjectDataDTOList = new ArrayList<>();
 
-                for (i = 0; i < AllClassList.size(); i++) {
+                for (int j = 0; j < AllClassList.size(); j++) {
                     SubjectDataDTO subjectDataDTO = new SubjectDataDTO();
-                    AllClassDTO allClassDTO = AllClassList.get(i);
+                    AllClassDTO allClassDTO = AllClassList.get(j);
 
                     subjectDataDTO.setCategory(split_head(allClassDTO.getSubject_name()));
                     subjectDataDTO.setSubject(split_head(allClassDTO.getSubject_name()));
@@ -100,11 +94,21 @@ public class GuideController {
                     subjectDataDTO.setCredit(allClassDTO.getCredit());
                     subjectDataDTO.setCourse(getCourse(split_tail(allClassDTO.getSubject_name())));
                     subjectDataDTO.setComplete(0);
-                    subjectDataDTO.setRecommend(false);
-                    subjectDataDTO.setChosen(false);
+
+                    //공통과목인 경우
+                    if(getCourse(split_tail(allClassDTO.getSubject_name()))=="공통"){
+                        subjectDataDTO.setRecommend(true);
+                        subjectDataDTO.setChosen(true);
+                    }
+
+                    //일반, 진로과목인 경우
+                    else {
+                        subjectDataDTO.setRecommend(false);
+                        subjectDataDTO.setChosen(false);
+                    }
 
                     subjectDataDTOList.add(subjectDataDTO);
-                };
+                }
 
                 GuideDTO guideDTO = new GuideDTO(major, subjectDataDTOList);
                 GuideList.add(guideDTO);
@@ -124,9 +128,9 @@ public class GuideController {
                 //진현
                 //이미 들은 과목 수만큼 반복
                 //DTO에 이미 들은 과목은 complete를 들은 학기로 숫자 변경, chosen을 true로 변경
-                
-                
-                
+
+
+
                 //이 데이터를 디비에 저장
             }
         }
