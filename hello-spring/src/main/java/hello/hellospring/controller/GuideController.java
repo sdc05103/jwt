@@ -39,6 +39,7 @@ public class GuideController {
         //major가 1개인지 3개인지 검사(list 요소의 개수 확인하는 함수)
         int major_num = major_list.size();
         List<GuideDTO> GuideList = new ArrayList<>();
+        List<GuideDTO> FinalGuideList = new ArrayList<>();
 
         //major 개수만큼 실행하는 반복문(1 or 3)
         for(int i=0 ; i<major_num; i++) {
@@ -49,7 +50,7 @@ public class GuideController {
             if(id.equals(guideService.getSID(id))) { //로그인한 사용자의 id와 total_guide의 sid가 같다면
 
                   GuideDTO Guide_element = guideService.getAllTotalguide(id, major);
-                  GuideList.add(Guide_element);
+                  FinalGuideList.add(Guide_element);
 
             }
 
@@ -58,7 +59,6 @@ public class GuideController {
 
                 //모든 과목 가져오기 - (class, subject 조인)
                 List<AllClassDTO> AllClassList = guideService.getAllClass(major);
-
 
                 //채윤 - 10/25 완료
                 //공통과목 디비에 넣기 10/25 완료
@@ -69,9 +69,6 @@ public class GuideController {
                 //진현 - 10/21 완료
                 //이미 들은 과목 가져오기 - (class_list, class, subject 조인)
                 List<CompleteDTO> CompleteList = guideService.getCompleteClass(id);
-                for(int j=0 ; j< CompleteList.size() ; j++) {
-                    System.out.println(CompleteList.get(j).getClass_name());
-                }
 
                 //채윤
                 //해당 전공에 추천하는 과목 다 받아오기 (major_detail에서 받아온 다음, 파싱 작업 후 class, subject 조인해서 각 과목에 해당하는 학점, 계열 가져오기)
@@ -134,18 +131,20 @@ public class GuideController {
                 //DTO에 이미 들은 과목은 complete를 들은 학기로 숫자 변경, chosen을 true로 변경
                 guideService.applyCompleteList(major, id, CompleteList);
 
+                //진현 - 10/27
+                //디비에 저장한 코드를 FinalGuideList에 받아오는 코드
+                GuideDTO Guide_element = guideService.getAllTotalguide(id, major);
+                FinalGuideList.add(Guide_element);
+
                 //진현 - 10/27 완료
                 //테스트 실행할 때마다 total_guide에 데이터가 쌓이는 것을 방지하기 위한 코드. 최종 완료 시에는 삭제할 예정
                 //임시 total_guide 삭제
                 guideService.deleteTemporaryGuide(major, id);
-
-
-                //디비에 저장한 코드를 GuideList에 받아오는 코드
-
             }
         }
+
         //반복문 종료
-        return GuideList;
+        return FinalGuideList;
 
     }
 
