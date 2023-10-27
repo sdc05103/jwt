@@ -148,10 +148,11 @@ public class GuideRepository {
     }
 
     public String getSID(String id){
-        String sql = "select t.sid from total_guide t, member m where t.pid = m.id = ? ";
+        String sql = "select distinct t.sid as sid from total_guide t where t.sid = ? ";
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
+        String sid="";
         try{
             conn = dataSource.getConnection();
             pstmt = conn.prepareStatement(sql);
@@ -159,7 +160,7 @@ public class GuideRepository {
             rs = pstmt.executeQuery();
 
             if(rs.next()){
-                id = rs.getString("sid");
+                sid = rs.getString("sid");
             }
 
         } catch (Exception e) {
@@ -168,7 +169,7 @@ public class GuideRepository {
         } finally {
             close(conn, pstmt,rs);
         }
-        return id;
+        return sid;
     }
 
     public List<String> getSubjectList(String major) {
@@ -197,27 +198,137 @@ public class GuideRepository {
 
 
     public List<CompleteDTO> getCompleteClass(String id) {
-        String sql = "select c.name as 'class_name', cl.credit as 'credit', s.name as 'subject' from class_list cl, class c, subject s where cl.member_id = ? and cl.class_id = c.cid and c.sid = s.sid;";
+        String sql = "select c.name as 'class_name', cl.credit as 'credit', s.name as 'subject', cl.semester as 'semester' from class_list cl, class c, subject s where cl.member_id = ? and cl.class_id = c.cid and c.sid = s.sid;";
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
+        List<CompleteDTO> class_list = new ArrayList<>();
         try {
             conn = dataSource.getConnection();
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, id);
             rs = pstmt.executeQuery();
-            List<CompleteDTO> class_list = new ArrayList<>();
             while (rs.next()) {
                 CompleteDTO class_element = new CompleteDTO();
                 class_element.setClass_name(rs.getString("class_name"));
-                class_element.setCredit(rs.getString("credit"));
+                class_element.setCredit(rs.getInt("credit"));
                 class_element.setSubject_name(rs.getString("subject"));
+                class_element.setSemester(rs.getInt("semester"));
                 class_list.add(class_element);
             }
             return class_list;
         }catch (Exception e) {
             throw new IllegalStateException(e);
         }finally {
+            close(conn, pstmt, rs);
+        }
+    }
+
+
+    public void insertTemporaryGuide(String major, String id, List<SubjectDataDTO> subjectDataDTOList) {
+
+        for(int i=0 ; i<subjectDataDTOList.size(); i++){
+            String sql = "INSERT INTO total_guide (sid, major, category, subject, class, credit, course, complete, recommend, chosen) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            Connection conn = null;
+            PreparedStatement pstmt = null;
+            ResultSet rs = null;
+            try {
+                conn = getConnection();
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, id);
+                pstmt.setString(2, major);
+                pstmt.setString(3, subjectDataDTOList.get(i).getCategory());
+                pstmt.setString(4, subjectDataDTOList.get(i).getSubject());
+                pstmt.setString(5, subjectDataDTOList.get(i).getClasses());
+                pstmt.setInt(6, subjectDataDTOList.get(i).getCredit());
+                pstmt.setString(7, subjectDataDTOList.get(i).getCourse());
+                pstmt.setInt(8, subjectDataDTOList.get(i).getComplete());
+                pstmt.setBoolean(9, subjectDataDTOList.get(i).isRecommend());
+                pstmt.setBoolean(10, subjectDataDTOList.get(i).isChosen());
+                pstmt.executeUpdate();
+
+            } catch (Exception e) {
+                throw new IllegalStateException(e);
+            } finally {
+                close(conn, pstmt, rs);
+            }
+        }
+    }
+
+    public void deleteTemporaryGuide(String major, String id) {
+        String sql = "DELETE FROM total_guide WHERE major = ? and sid = ?";
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, major);
+            pstmt.setString(2, id);
+            pstmt.executeUpdate();
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        } finally {
+            close(conn, pstmt, rs);
+        }
+    }
+
+    public void complete_create(List<CompleteDTO> completeList) {
+        for(int i=0 ; i<completeList.size(); i++){
+            String sql = "INSERT INTO tmp_CompleteList VALUES (?, ?, ?, ?)";
+            Connection conn = null;
+            PreparedStatement pstmt = null;
+            ResultSet rs = null;
+            try {
+                conn = getConnection();
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, completeList.get(i).getClass_name());
+                pstmt.setInt(2, completeList.get(i).getCredit());
+                pstmt.setString(3, completeList.get(i).getSubject_name());
+                pstmt.setInt(4, completeList.get(i).getSemester());
+                pstmt.executeUpdate();
+
+            } catch (Exception e) {
+                throw new IllegalStateException(e);
+            } finally {
+                close(conn, pstmt, rs);
+            }
+        }
+    }
+
+    public void complete_delete() {
+        String sql = "DELETE FROM tmp_CompleteList";
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.executeUpdate();
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        } finally {
+            close(conn, pstmt, rs);
+        }
+    }
+
+    public void complete_check(String major, String id) {
+        String sql = "UPDATE total_guide tg JOIN tmp_CompleteList tc ON tg.class = tc.class_name SET tg.complete = tc.semester WHERE tg.sid = ? AND tg.major = ?;";
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, id);
+            pstmt.setString(2, major);
+            pstmt.executeUpdate();
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        } finally {
             close(conn, pstmt, rs);
         }
     }

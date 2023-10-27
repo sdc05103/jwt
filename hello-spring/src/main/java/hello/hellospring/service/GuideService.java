@@ -6,6 +6,7 @@ import hello.hellospring.domain.Subject;
 import hello.hellospring.dto.AllClassDTO;
 import hello.hellospring.dto.CompleteDTO;
 import hello.hellospring.dto.GuideDTO;
+import hello.hellospring.dto.SubjectDataDTO;
 import hello.hellospring.repository.GuideRepository;
 import org.springframework.context.annotation.Configuration;
 import hello.hellospring.repository.GuideRepository;
@@ -44,5 +45,24 @@ public class GuideService {
         return guideRepository.getSubjectList(major);
     }
     public List<CompleteDTO> getCompleteClass(String id) { return guideRepository.getCompleteClass(id);
+    }
+
+    public void insertTemporaryGuide(String major, String id, List<SubjectDataDTO> subjectDataDTOList) {
+        guideRepository.insertTemporaryGuide(major, id, subjectDataDTOList);
+    }
+
+    public void deleteTemporaryGuide(String major, String id) {
+        guideRepository.deleteTemporaryGuide(major, id);
+    }
+
+    public void applyCompleteList(String major, String id, List<CompleteDTO> completeList) {
+        //completeList 디비에 임시 생성
+        guideRepository.complete_create(completeList);
+
+        //임시 completeList와, 임시 total_guide 조인하여 complete 변경하기
+        guideRepository.complete_check(major, id);
+
+        //임시 생성한 completeList 삭제
+        guideRepository.complete_delete();
     }
 }

@@ -44,10 +44,9 @@ public class GuideController {
         for(int i=0 ; i<major_num; i++) {
 
             String major = major_list.get(i);
-            System.out.println(major);
 
             //IF : 유저의 가이드 데이터가 디비에 있는 경우 그대로 리턴 //total_guide 테이블에 현재 사용자 id 있는지 check
-            if(id == guideService.getSID(id)) { //로그인한 사용자의 id와 total_guide의 sid가 같다면
+            if(id.equals(guideService.getSID(id))) { //로그인한 사용자의 id와 total_guide의 sid가 같다면
 
                   GuideDTO Guide_element = guideService.getAllTotalguide(id, major);
                   GuideList.add(Guide_element);
@@ -70,16 +69,17 @@ public class GuideController {
                 //진현 - 10/21 완료
                 //이미 들은 과목 가져오기 - (class_list, class, subject 조인)
                 List<CompleteDTO> CompleteList = guideService.getCompleteClass(id);
-
-
+                for(int j=0 ; j< CompleteList.size() ; j++) {
+                    System.out.println(CompleteList.get(j).getClass_name());
+                }
 
                 //채윤
                 //해당 전공에 추천하는 과목 다 받아오기 (major_detail에서 받아온 다음, 파싱 작업 후 class, subject 조인해서 각 과목에 해당하는 학점, 계열 가져오기)
                 List<String> subject_list = guideService.getSubjectList(major);
 
-                for(int j=0 ; j< subject_list.size() ; j++) {
-                    System.out.println(subject_list.get(j));
-                }
+//                for(int j=0 ; j< subject_list.size() ; j++) {
+//                    System.out.println(subject_list.get(j));
+//                }
 
                 //진현 - 10/21 완료
                 //모든 과목 수만큼 반복
@@ -115,8 +115,11 @@ public class GuideController {
                 GuideDTO guideDTO = new GuideDTO(major, subjectDataDTOList);
                 GuideList.add(guideDTO);
 
-                //진현
-                //total guide list를 디비에 넣어놓기
+                //진현 - 10/27 완료
+                //total guide list를 임시로 디비에 넣어놓기
+                guideService.insertTemporaryGuide(major, id, subjectDataDTOList);
+
+
 
 
                 //채윤
@@ -126,14 +129,19 @@ public class GuideController {
 
 
 
-
-                //진현
+                //진현 - 10/27 완료
                 //이미 들은 과목 수만큼 반복
                 //DTO에 이미 들은 과목은 complete를 들은 학기로 숫자 변경, chosen을 true로 변경
+                guideService.applyCompleteList(major, id, CompleteList);
+
+                //진현 - 10/27 완료
+                //테스트 실행할 때마다 total_guide에 데이터가 쌓이는 것을 방지하기 위한 코드. 최종 완료 시에는 삭제할 예정
+                //임시 total_guide 삭제
+                guideService.deleteTemporaryGuide(major, id);
 
 
+                //디비에 저장한 코드를 GuideList에 받아오는 코드
 
-                //이 데이터를 디비에 저장
             }
         }
         //반복문 종료
