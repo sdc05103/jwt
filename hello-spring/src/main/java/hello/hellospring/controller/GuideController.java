@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -73,10 +74,30 @@ public class GuideController {
                 //채윤
                 //해당 전공에 추천하는 과목 다 받아오기 (major_detail에서 받아온 다음, 파싱 작업 후 class, subject 조인해서 각 과목에 해당하는 학점, 계열 가져오기)
                 List<String> subject_list = guideService.getSubjectList(major);
+                List<String> currentMajorSubjects = new ArrayList<>();
 
-//                for(int j=0 ; j< subject_list.size() ; j++) {
-//                    System.out.println(subject_list.get(j));
-//                }
+                for(int j=0 ; j< subject_list.size() ; j++) {
+                    String subject = subject_list.get(j);
+
+                    String[] subjects = subject.split(";");
+                    currentMajorSubjects.addAll(Arrays.asList(subjects));
+
+                    // 다음 줄로 이동
+                    j++;
+
+                    if (j < subject_list.size()) {
+                        String nextLine = subject_list.get(j);
+                        // 세미콜론으로 과목 분리하고 추가
+                        subjects = nextLine.split(";");
+                        currentMajorSubjects.addAll(Arrays.asList(subjects));
+                    }
+                }
+
+                System.out.println("과목 리스트:");
+                for (String subject : currentMajorSubjects) {
+                    System.out.println(subject);
+                }
+
 
                 //진현 - 10/21 완료
                 //모든 과목 수만큼 반복
@@ -122,6 +143,7 @@ public class GuideController {
                 //채윤
                 //추천 과목 수만큼 반복
                 //DTO에 추천 과목은 recommend를 true로 변경, chosen을 true로 변경
+
 
 
 
