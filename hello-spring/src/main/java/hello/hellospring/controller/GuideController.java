@@ -61,12 +61,6 @@ public class GuideController {
                 //모든 과목 가져오기 - (class, subject 조인)
                 List<AllClassDTO> AllClassList = guideService.getAllClass(major);
 
-                //채윤 - 10/25 완료
-                //공통과목 디비에 넣기 10/25 완료
-                //subject 테이블에 '국어0', '영어0', '수학0'처럼 끝자리가 0인 subject 행을 생성하신 후
-                //해당 subject 행의 sid에 매칭하여서
-                //class 테이블에 공통과목을 넣어주세요.
-
                 //진현 - 10/21 완료
                 //이미 들은 과목 가져오기 - (class_list, class, subject 조인)
                 List<CompleteDTO> CompleteList = guideService.getCompleteClass(id);
@@ -92,12 +86,6 @@ public class GuideController {
                         currentMajorSubjects.addAll(Arrays.asList(subjects));
                     }
                 }
-
-                System.out.println("과목 리스트:");
-                for (String subject : currentMajorSubjects) {
-                    System.out.println(subject);
-                }
-
 
                 //진현 - 10/21 완료
                 //모든 과목 수만큼 반복
