@@ -13,7 +13,7 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="f1cb1438-29e0-428a-aa10-4ec0c5b109a5">
-      <console name="creditpartner" type="STANDARD" schema="creditpartner" session="Main"><![CDATA[select 학과 from major where pid = 1;]]></console>
+      <console name="creditpartner" type="STANDARD" schema="creditpartner" session="Main"><![CDATA[select * FROM total_guide;]]></console>
       <console name="creditpartner 1" type="STANDARD" schema="creditpartner" session="Main"><![CDATA[select @@time_zone, now();]]></console>
     </connection>
   </component>
@@ -24,6 +24,7 @@
     <open-files />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="f1cb1438-29e0-428a-aa10-4ec0c5b109a5" dataset="creditpartner.tmp_CompleteList" active-filter-id="" />
     <filter-actions connection-id="f1cb1438-29e0-428a-aa10-4ec0c5b109a5" dataset="creditpartner.total_guide" active-filter-id="" />
     <filter-actions connection-id="f1cb1438-29e0-428a-aa10-4ec0c5b109a5" dataset="creditpartner.class" active-filter-id="" />
   </component>
