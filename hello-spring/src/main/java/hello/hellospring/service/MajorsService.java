@@ -20,5 +20,6 @@ public class MajorsService {
     public MajorDetail showAll(String major_name){
         return majorsRepository.findMajor(major_name);
     }
+    public String findMajorName(int majorNum){return majorsRepository.findMajorName(majorNum); }
 
 }
