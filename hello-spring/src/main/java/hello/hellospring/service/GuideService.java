@@ -65,4 +65,17 @@ public class GuideService {
         //임시 생성한 completeList 삭제
         guideRepository.complete_delete();
     }
+
+    //채윤
+    public void applyRecommendList(String major, String id, List<String> recommendSubjects){
+        //추천받은 과목 저장하는 tmp_RecommendList 임시 생성
+        guideRepository.insertSubjects(recommendSubjects);
+
+        //tmp_recommendList와 total_guide 조인해서 recommend=True, chosen=True로 변경하기
+        guideRepository.recommend_check(major, id);
+
+        //tmp_recommendList 삭제
+        guideRepository.recommend_delete();
+
+    }
 }

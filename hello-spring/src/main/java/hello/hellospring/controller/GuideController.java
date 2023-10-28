@@ -65,7 +65,7 @@ public class GuideController {
                 //이미 들은 과목 가져오기 - (class_list, class, subject 조인)
                 List<CompleteDTO> CompleteList = guideService.getCompleteClass(id);
 
-                //채윤
+                //채윤 - 10/27 완료
                 //해당 전공에 추천하는 과목 다 받아오기 (major_detail에서 받아온 다음, 파싱 작업 후 class, subject 조인해서 각 과목에 해당하는 학점, 계열 가져오기)
                 List<String> subject_list = guideService.getSubjectList(major);
                 List<String> currentMajorSubjects = new ArrayList<>();
@@ -125,15 +125,14 @@ public class GuideController {
                 //total guide list를 임시로 디비에 넣어놓기
                 guideService.insertTemporaryGuide(major, id, subjectDataDTOList);
 
-
-
+                for(String  sub : subject_list){
+                    System.out.println(sub);
+                }
 
                 //채윤
                 //추천 과목 수만큼 반복
                 //DTO에 추천 과목은 recommend를 true로 변경, chosen을 true로 변경
-
-
-
+                guideService.applyRecommendList(major, id, currentMajorSubjects);
 
 
                 //진현 - 10/27 완료

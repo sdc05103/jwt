@@ -24,7 +24,7 @@ public class GuideRepository {
 
     private final DataSource dataSource;
 
-    public GuideRepository(DataSource dataSource){
+    public GuideRepository(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -43,9 +43,9 @@ public class GuideRepository {
                 major_list.add(rs.getString("학과"));
             }
             return major_list;
-        }catch (Exception e) {
+        } catch (Exception e) {
             throw new IllegalStateException(e);
-        }finally {
+        } finally {
             close(conn, pstmt, rs);
         }
     }
@@ -54,8 +54,8 @@ public class GuideRepository {
     private Connection getConnection() {
         return DataSourceUtils.getConnection(dataSource);
     }
-    private void close(Connection conn, PreparedStatement pstmt, ResultSet rs)
-    {
+
+    private void close(Connection conn, PreparedStatement pstmt, ResultSet rs) {
         try {
             if (rs != null) {
                 rs.close();
@@ -78,6 +78,7 @@ public class GuideRepository {
             e.printStackTrace();
         }
     }
+
     private void close(Connection conn) throws SQLException {
         DataSourceUtils.releaseConnection(conn, dataSource);
     }
@@ -100,9 +101,9 @@ public class GuideRepository {
                 class_list.add(class_element);
             }
             return class_list;
-        }catch (Exception e) {
+        } catch (Exception e) {
             throw new IllegalStateException(e);
-        }finally {
+        } finally {
             close(conn, pstmt, rs);
         }
     }
@@ -125,7 +126,7 @@ public class GuideRepository {
             while (rs.next()) {
 
                 // SubjectDataDTO를 생성하고 설정
-               SubjectDataDTO subjectData = new SubjectDataDTO(
+                SubjectDataDTO subjectData = new SubjectDataDTO(
                         rs.getString("category"),
                         rs.getString("subject"),
                         rs.getString("class"),
@@ -135,7 +136,7 @@ public class GuideRepository {
                         rs.getBoolean("recommend"),
                         rs.getBoolean("chosen")
                 );
-               subjectDataDTOList.add(subjectData);
+                subjectDataDTOList.add(subjectData);
             }
             GuideDTO guide_list = new GuideDTO(major, subjectDataDTOList);
             return guide_list;
@@ -143,23 +144,23 @@ public class GuideRepository {
         } catch (Exception e) {
             throw new IllegalStateException(e);
         } finally {
-            close(conn, pstmt,rs);
+            close(conn, pstmt, rs);
         }
     }
 
-    public String getSID(String id){
+    public String getSID(String id) {
         String sql = "select distinct t.sid as sid from total_guide t where t.sid = ? ";
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        String sid="";
-        try{
+        String sid = "";
+        try {
             conn = dataSource.getConnection();
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, id);
             rs = pstmt.executeQuery();
 
-            if(rs.next()){
+            if (rs.next()) {
                 sid = rs.getString("sid");
             }
 
@@ -167,7 +168,7 @@ public class GuideRepository {
             // 예외 처리
             e.printStackTrace(); // 예외 정보를 출력하거나 다른 처리를 수행할 수 있습니다.
         } finally {
-            close(conn, pstmt,rs);
+            close(conn, pstmt, rs);
         }
         return sid;
     }
@@ -217,9 +218,9 @@ public class GuideRepository {
                 class_list.add(class_element);
             }
             return class_list;
-        }catch (Exception e) {
+        } catch (Exception e) {
             throw new IllegalStateException(e);
-        }finally {
+        } finally {
             close(conn, pstmt, rs);
         }
     }
@@ -227,7 +228,7 @@ public class GuideRepository {
 
     public void insertTemporaryGuide(String major, String id, List<SubjectDataDTO> subjectDataDTOList) {
 
-        for(int i=0 ; i<subjectDataDTOList.size(); i++){
+        for (int i = 0; i < subjectDataDTOList.size(); i++) {
             String sql = "INSERT INTO total_guide (sid, major, category, subject, class, credit, course, complete, recommend, chosen) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             Connection conn = null;
             PreparedStatement pstmt = null;
@@ -275,7 +276,7 @@ public class GuideRepository {
     }
 
     public void complete_create(List<CompleteDTO> completeList) {
-        for(int i=0 ; i<completeList.size(); i++){
+        for (int i = 0; i < completeList.size(); i++) {
             String sql = "INSERT INTO tmp_CompleteList VALUES (?, ?, ?, ?)";
             Connection conn = null;
             PreparedStatement pstmt = null;
@@ -332,4 +333,74 @@ public class GuideRepository {
             close(conn, pstmt, rs);
         }
     }
+
+    //채윤코드
+    //추천 받은 과목들 가져와서 테이블에 넣기
+    public void insertSubjects(List<String> recommendSubjects) {
+        for (int i = 0; i < recommendSubjects.size(); i++) {
+            String sql = "INSERT INTO tmp_RecommendList VALUES (?)";
+            Connection conn = null;
+            PreparedStatement pstmt = null;
+            ResultSet rs = null;
+            try {
+                conn = getConnection();
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, recommendSubjects.get(i));
+                pstmt.executeUpdate();
+
+            } catch (Exception e) {
+                throw new IllegalStateException(e);
+            } finally {
+                close(conn, pstmt, rs);
+            }
+        }
+    }
+
+    public void recommend_check(String major, String id) {
+        String sql = "UPDATE total_guide tg JOIN tmp_RecommendList tr on tr.class_name = tg.class set tg.recommend = true, tg. chosen = true where tg.sid = ? and tg.major=?;";
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, id);
+            pstmt.setString(2, major);
+            pstmt.executeUpdate();
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        } finally {
+            close(conn, pstmt, rs);
+        }
+
+    }
+
+    public void recommend_delete(){
+        String sql = "DELETE FROM tmp_RecommendList";
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.executeUpdate();
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        } finally {
+            close(conn, pstmt, rs);
+        }
+
+    }
+
 }
+
+
+
+
+
+
+
+
