@@ -13,7 +13,7 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="f1cb1438-29e0-428a-aa10-4ec0c5b109a5">
-      <console name="creditpartner" type="STANDARD" schema="creditpartner" session="Main"><![CDATA[select * from class;]]></console>
+      <console name="creditpartner" type="STANDARD" schema="creditpartner" session="Main"><![CDATA[select 학과 from major where pid = 1;]]></console>
       <console name="creditpartner 1" type="STANDARD" schema="creditpartner" session="Main"><![CDATA[select @@time_zone, now();]]></console>
     </connection>
   </component>

@@ -61,7 +61,28 @@ public class majorsRepository {
         return majorDetail;
     }
 
-
+    public String findMajorName(int majorNum) {
+        String sql = "select 학과 from major where pid = ?;";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        String major = null;
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, majorNum);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                major = rs.getString("학과");
+            }
+        } catch (Exception e) {
+            // 예외 처리
+            e.printStackTrace(); // 예외 정보를 출력하거나 다른 처리를 수행할 수 있습니다.
+        } finally {
+            close(conn, pstmt, rs);
+        }
+        return major;
+    }
 
     private Connection getConnection() {
         return DataSourceUtils.getConnection(dataSource);

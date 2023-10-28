@@ -18,11 +18,12 @@ public class MajorController {
         this.majorsService = majorsService;
     }
     @ResponseBody
-    @GetMapping(value = "/api/major", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public MajorDetailDTO majorShow(@RequestBody MajorRequestDTO majorRequestDTO) {
+    @GetMapping(value = "/api/major")
+    public MajorDetailDTO majorShow(@RequestParam("majorNum")int majorNum){
 
-        String major_name = majorRequestDTO.getMajor_name();
+        String major_name = majorsService.findMajorName(majorNum);
         MajorDetail majorDetail = majorsService.showAll(major_name);
+//        System.out.println(major_name);
 
         // 조회된 MajorDetail 객체를 MajorDetailDTO로 매핑
         MajorDetailDTO majorDetailDTO = new MajorDetailDTO();
