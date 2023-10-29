@@ -125,9 +125,9 @@ public class GuideController {
                 //total guide list를 임시로 디비에 넣어놓기
                 guideService.insertTemporaryGuide(major, id, subjectDataDTOList);
 
-                for(String  sub : subject_list){
-                    System.out.println(sub);
-                }
+//                for(String  sub : subject_list){
+//                    System.out.println(sub);
+//                }
 
                 //채윤
                 //추천 과목 수만큼 반복
