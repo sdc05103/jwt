@@ -96,7 +96,7 @@ public class GuideController {
                     SubjectDataDTO subjectDataDTO = new SubjectDataDTO();
                     AllClassDTO allClassDTO = AllClassList.get(j);
 
-                    subjectDataDTO.setCategory(split_head(allClassDTO.getSubject_name()));
+                    subjectDataDTO.setCategory(etc_processing(split_head(allClassDTO.getSubject_name())));
                     subjectDataDTO.setSubject(split_head(allClassDTO.getSubject_name()));
                     subjectDataDTO.setClasses(allClassDTO.getClass_name());
                     subjectDataDTO.setCredit(allClassDTO.getCredit());
@@ -173,6 +173,15 @@ public class GuideController {
             int len = input.length();
             char last = input.charAt(len - 1); // 마지막 문자 추출
             return last; // 마지막 문자를 문자열로 변환하여 반환
+    }
+
+    public static String etc_processing(String input){
+            if(input.equals("한문")||input.equals("제2외국어")||input.equals("교양")||input.equals("기술·가정")){
+                return "기타";
+            }
+            else{
+                return input;
+            }
     }
 
     public static String getCourse(char num){
