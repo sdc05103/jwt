@@ -148,8 +148,8 @@ public class GuideRepository {
         }
     }
 
-    public String getSID(String id) {
-        String sql = "select distinct t.sid as sid from total_guide t where t.sid = ? ";
+    public String getSID(String id, String major) {
+        String sql = "select distinct t.sid as sid from total_guide t where t.sid = ? and t.major = ?";
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -158,6 +158,7 @@ public class GuideRepository {
             conn = dataSource.getConnection();
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, id);
+            pstmt.setString(2, major);
             rs = pstmt.executeQuery();
 
             if (rs.next()) {

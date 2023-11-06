@@ -67,7 +67,7 @@ public class GuideController {
             String major = major_list.get(i);
 
             //IF : 유저의 가이드 데이터가 디비에 있는 경우 그대로 리턴 //total_guide 테이블에 현재 사용자 id 있는지 check
-            if(id.equals(guideService.getSID(id))) { //로그인한 사용자의 id와 total_guide의 sid가 같다면
+            if(id.equals(guideService.getSID(id, major))) { //로그인한 사용자의 id와 total_guide의 sid가 같다면
 
                   GuideDTO Guide_element = guideService.getAllTotalguide(id, major);
                   FinalGuideList.add(Guide_element);

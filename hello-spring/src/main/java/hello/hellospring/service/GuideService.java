@@ -41,8 +41,8 @@ public class GuideService {
         return guideRepository.getMajor(id);
     }
 
-    public String getSID(String sid){
-        return guideRepository.getSID(sid);
+    public String getSID(String sid, String major){
+        return guideRepository.getSID(sid, major);
     }
 
     public List<String> getSubjectList(String major){
