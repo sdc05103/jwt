@@ -24,4 +24,8 @@ public class RcmMajorService {
     public void RcmMajorEdit(int rcmMajorId1, int rcmMajorId2, int rcmMajorId3, String sid) {
         rcmMajorRepository.RcmMajorEdit(rcmMajorId1, rcmMajorId2, rcmMajorId3, sid);
     }
+
+    public void deleteRcm(String id) {
+        rcmMajorRepository.deleteRcm(id);
+    }
 }

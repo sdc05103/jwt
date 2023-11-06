@@ -35,6 +35,7 @@ public class RcmMajorController {
                 .getBody().getSubject();
 
         ///이전에 저장돼있던 추천학과 삭제하는 함수 추가////////
+        rcmMajorService.deleteRcm(id);
 
         String major = hope_major.getHopeMajor();
 
@@ -65,6 +66,7 @@ public class RcmMajorController {
                 .getBody().getSubject();
 
         ///이전에 저장돼있던 추천학과 삭제하는 함수 추가////////
+        rcmMajorService.deleteRcm(id);
 
         List<String> major_list = new ArrayList<>();
 
