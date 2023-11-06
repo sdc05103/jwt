@@ -1,15 +1,12 @@
 package hello.hellospring.controller;
 
 import com.mysql.cj.x.protobuf.MysqlxDatatypes;
-import hello.hellospring.dto.AllClassDTO;
-import hello.hellospring.dto.CompleteDTO;
-import hello.hellospring.dto.GuideDTO;
-import hello.hellospring.dto.SubjectDataDTO;
+import hello.hellospring.dto.*;
+import hello.hellospring.repository.GuideRepository;
 import hello.hellospring.service.GuideService;
 import io.jsonwebtoken.Jwts;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,8 +21,30 @@ public class GuideController {
         this.guideService = guideService;
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/api/guide")
+    public List<GuideDTO> guideEdit(@RequestBody List<GuideDTO> pastGuideList, @RequestHeader("Authorization") String token) {
+
+        String id = Jwts.parserBuilder()
+                .setSigningKey("c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK" .getBytes())
+                .build()
+                .parseClaimsJws(token)
+                .getBody().getSubject();
+
+        List<GuideDTO> guideList = new ArrayList<>();
+
+        //해당 아이디로 저장되어있는 데이터를 total_guide 테이블에서 전부 삭제
+        guideService.deleteGuide(id);
+
+        //front에서 넘겨준 pastGuideList를 total_guide 테이블에 저장
+        guideService.insertGuide(id, pastGuideList);
+
+        return guideList;
+    }
+
+
     @GetMapping(value = "/api/guide")
-    public List<GuideDTO> creditShow(@RequestHeader("Authorization") String token) {
+    public List<GuideDTO> guideShow(@RequestHeader("Authorization") String token) {
 
         String id = Jwts.parserBuilder()
                 .setSigningKey("c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK" .getBytes())
@@ -148,7 +167,7 @@ public class GuideController {
                 //진현 - 10/27 완료
                 //테스트 실행할 때마다 total_guide에 데이터가 쌓이는 것을 방지하기 위한 코드. 최종 완료 시에는 삭제할 예정
                 //임시 total_guide 삭제
-                guideService.deleteTemporaryGuide(major, id);
+//                guideService.deleteTemporaryGuide(major, id);
             }
         }
 

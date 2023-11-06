@@ -24,6 +24,10 @@ public class GuideService {
         this.guideRepository = guideRepository;
     }
 
+    public void deleteGuide(String id) {
+        guideRepository.deleteGuide(id);
+    }
+
     public List<AllClassDTO> getAllClass(String major) {
         return guideRepository.getAllClass(major);
     }
@@ -77,5 +81,14 @@ public class GuideService {
         //tmp_recommendList 삭제
         guideRepository.recommend_delete();
 
+    }
+
+    public void insertGuide(String id, List<GuideDTO> pastGuideList) {
+        for(GuideDTO guideElement : pastGuideList){
+            String major = guideElement.getMajor();
+            List<SubjectDataDTO> subjects = guideElement.getSubjectData();
+
+            guideRepository.insertGuide(major, id, subjects);
+        }
     }
 }

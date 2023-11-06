@@ -275,6 +275,24 @@ public class GuideRepository {
         }
     }
 
+    public void deleteGuide(String id) {
+        String sql = "DELETE FROM total_guide where sid = ?";
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, id);
+            pstmt.executeUpdate();
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        } finally {
+            close(conn, pstmt, rs);
+        }
+    }
+
     public void complete_create(List<CompleteDTO> completeList) {
         for (int i = 0; i < completeList.size(); i++) {
             String sql = "INSERT INTO tmp_CompleteList VALUES (?, ?, ?, ?)";
@@ -395,6 +413,36 @@ public class GuideRepository {
 
     }
 
+    public void insertGuide(String major, String id, List<SubjectDataDTO> subjectDataDTOList) {
+
+        for (int i = 0; i < subjectDataDTOList.size(); i++) {
+            String sql = "INSERT INTO total_guide (sid, major, category, subject, class, credit, course, complete, recommend, chosen) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            Connection conn = null;
+            PreparedStatement pstmt = null;
+            ResultSet rs = null;
+            try {
+                conn = getConnection();
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, id);
+                pstmt.setString(2, major);
+                pstmt.setString(3, subjectDataDTOList.get(i).getCategory());
+                pstmt.setString(4, subjectDataDTOList.get(i).getSubject());
+                pstmt.setString(5, subjectDataDTOList.get(i).getClasses());
+                pstmt.setInt(6, subjectDataDTOList.get(i).getCredit());
+                pstmt.setString(7, subjectDataDTOList.get(i).getCourse());
+                pstmt.setInt(8, subjectDataDTOList.get(i).getComplete());
+                pstmt.setBoolean(9, subjectDataDTOList.get(i).isRecommend());
+                pstmt.setBoolean(10, subjectDataDTOList.get(i).isChosen());
+                pstmt.executeUpdate();
+
+            } catch (Exception e) {
+                throw new IllegalStateException(e);
+            } finally {
+                close(conn, pstmt, rs);
+            }
+        }
+
+    }
 }
 
 
