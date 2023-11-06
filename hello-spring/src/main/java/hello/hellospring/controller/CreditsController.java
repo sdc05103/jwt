@@ -2,22 +2,15 @@ package hello.hellospring.controller;
 
 import hello.hellospring.domain.Classes;
 import hello.hellospring.domain.Credit;
-import hello.hellospring.domain.Member;
 import hello.hellospring.domain.Subject;
 import hello.hellospring.dto.CreditEditDTO;
 import hello.hellospring.service.CreditsService;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtParser;
+import hello.hellospring.service.GuideService;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +19,8 @@ import java.util.List;
 public class CreditsController {
 
     private final CreditsService creditsService;
+
+    private final GuideService guideService;
 
     @ResponseBody
     @RequestMapping(value = "/api/credits/{semester}")
@@ -66,6 +61,9 @@ public class CreditsController {
 
             creditsService.credit_edit(semester, credit_obj, id);
         }
+
+        guideService.deleteGuide(id);
+
         return ResponseEntity.ok("Successfully processed credit data");
     }
 
@@ -108,8 +106,9 @@ public class CreditsController {
     }
 
     @Autowired
-    public CreditsController(CreditsService creditsService) {
+    public CreditsController(CreditsService creditsService, GuideService guideService) {
         this.creditsService = creditsService;
+        this.guideService = guideService;
     }
 
 
