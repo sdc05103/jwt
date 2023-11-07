@@ -335,7 +335,7 @@ public class GuideRepository {
     }
 
     public void complete_check(String major, String id) {
-        String sql = "UPDATE total_guide tg JOIN tmp_CompleteList tc ON tg.class = tc.class_name SET tg.complete = tc.semester, tg.chosen = true WHERE tg.sid = ? AND tg.major = ?;";
+        String sql = "UPDATE total_guide tg JOIN tmp_CompleteList tc ON tg.class = tc.class_name SET tg.complete = tc.semester, tg.chosen = true, tg.credit = tc.credit WHERE tg.sid = ? AND tg.major = ?;";
 
         Connection conn = null;
         PreparedStatement pstmt = null;
